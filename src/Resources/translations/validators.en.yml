@@ -1,7 +1,7 @@
 bitbag_sylius_przelewy24_plugin:
-    environment:
-        not_blank: Environment cannot be blank.
+    crc:
+        not_blank: CRC key cannot be blank.
+    reports_key:
+        not_blank: Reports key cannot be blank.
     merchant_id:
         not_blank: Merchant id cannot be blank.
-    crc_key:
-        not_blank: CRC key cannot be blank.

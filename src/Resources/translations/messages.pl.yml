@@ -1,8 +1,7 @@
 bitbag_sylius_przelewy24_plugin:
     ui:
-          production: Production
-          sandbox: Sandbox
-          merchant_id: ID sprzedawcy
-          crc_key: Klucz CRC
-          environment: Środowisko
+          live: Czy środowisko produkcyjne?
+          crc: CRC
+          reports_key: Klucz reportów
+          merchant_id: Klucz sprzedawcy
           przelewy24_gateway_label: Przelewy24

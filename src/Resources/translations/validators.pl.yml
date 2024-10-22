@@ -1,7 +1,7 @@
 bitbag_sylius_przelewy24_plugin:
-    environment:
-        not_blank: Proszę wybrać środowisko.
+    crc:
+        not_blank: CRC nie może być puste.
+    reports_key:
+        not_blank: Klucz raportów nie może być pusty.
     merchant_id:
-        not_blank: Proszę podać ID sprzedawcy.
-    crc_key:
-        not_blank: Proszę podać klucz CRC.
+        not_blank: Id sprzedawcy nie może być puste.
