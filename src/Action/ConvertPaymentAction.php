@@ -12,7 +12,6 @@ namespace BitBag\SyliusPrzelewy24Plugin\Action;
 
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Exception\RequestNotSupportedException;
-use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Request\Convert;
 use Sylius\Bundle\PayumBundle\Provider\PaymentDescriptionProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -21,8 +20,6 @@ use Sylius\Component\Core\Model\PaymentInterface;
 
 final class ConvertPaymentAction implements ActionInterface
 {
-    use GatewayAwareTrait;
-
     private PaymentDescriptionProviderInterface $paymentDescriptionProvider;
 
     public function __construct(PaymentDescriptionProviderInterface $paymentDescriptionProvider)
@@ -32,6 +29,7 @@ final class ConvertPaymentAction implements ActionInterface
 
     public function execute($request): void
     {
+        /** @var Convert $request */
         RequestNotSupportedException::assertSupports($this, $request);
 
         /** @var PaymentInterface $payment */
@@ -42,29 +40,28 @@ final class ConvertPaymentAction implements ActionInterface
 
         $paymentData = $this->getPaymentData($payment);
         $customerData = $this->getCustomerData($order);
-        $shoppingList = $this->getShoppingList($order);
 
-        $details = array_merge($paymentData, $customerData, $shoppingList);
+        $shoppingList = ['cart' => $this->getShoppingList($order)];
 
-        $request->setResult($details);
+        $request->setResult(
+            \array_merge($paymentData, $customerData, $shoppingList),
+        );
     }
 
     public function supports($request): bool
     {
-        return
-            $request instanceof Convert &&
-            $request->getSource() instanceof PaymentInterface &&
-            'array' === $request->getTo()
-        ;
+        return $request instanceof Convert
+            && $request->getSource() instanceof PaymentInterface
+            && 'array' === $request->getTo();
     }
 
     private function getPaymentData(PaymentInterface $payment): array
     {
         $paymentData = [];
 
-        $paymentData['p24_amount'] = $payment->getAmount();
-        $paymentData['p24_currency'] = $payment->getCurrencyCode();
-        $paymentData['p24_description'] = $this->paymentDescriptionProvider->getPaymentDescription($payment);
+        $paymentData['originAmount'] = $payment->getAmount();
+        $paymentData['currency'] = $payment->getCurrencyCode();
+        $paymentData['description'] = $this->paymentDescriptionProvider->getPaymentDescription($payment);
 
         return $paymentData;
     }
@@ -73,19 +70,20 @@ final class ConvertPaymentAction implements ActionInterface
     {
         $customerData = [];
 
-        $customerData['p24_language'] = $order->getLocaleCode();
+        $customerData['shipping'] = $order->getShippingTotal();
+        $customerData['language'] = \Locale::parseLocale($order->getLocaleCode())['language'];
 
         if (null !== $customer = $order->getCustomer()) {
-            $customerData['p24_email'] = $customer->getEmail();
+            $customerData['email'] = $customer->getEmail();
         }
 
         if (null !== $address = $order->getShippingAddress()) {
-            $customerData['p24_address'] = $address->getStreet();
-            $customerData['p24_zip'] = $address->getPostcode();
-            $customerData['p24_country'] = $address->getCountryCode();
-            $customerData['p24_phone'] = $address->getPhoneNumber();
-            $customerData['p24_city'] = $address->getCity();
-            $customerData['p24_client'] = $address->getFullName();
+            $customerData['address'] = $address->getStreet();
+            $customerData['zip'] = $address->getPostcode();
+            $customerData['country'] = $address->getCountryCode();
+            $customerData['phone'] = $address->getPhoneNumber();
+            $customerData['city'] = $address->getCity();
+            $customerData['client'] = $address->getFullName();
         }
 
         return $customerData;
@@ -93,19 +91,20 @@ final class ConvertPaymentAction implements ActionInterface
 
     private function getShoppingList(OrderInterface $order): array
     {
-        $shoppingList = [];
+        $sellerId = (string) $order->getChannel()?->getId();
+        $sellerCategory = $order->getChannel()?->getName();
 
-        $index = 1;
-
-        /** @var OrderItemInterface $item */
-        foreach ($order->getItems() as $item) {
-            $shoppingList['p24_name_' . $index] = $item->getProduct()->getName();
-            $shoppingList['p24_quantity_' . $index] = $item->getQuantity();
-            $shoppingList['p24_price_' . $index] = $item->getUnitPrice();
-
-            ++$index;
-        }
-
-        return $shoppingList;
+        return \array_map(
+            callback: fn (OrderItemInterface $item): array => [
+                'sellerId' => $sellerId,
+                'sellerCategory' => $sellerCategory,
+                'name' => $item->getProduct()->getName(),
+                'description' => $item->getProduct()->getDescription(),
+                'quantity' => $item->getQuantity(),
+                'price' => $item->getUnitPrice(),
+                'number' => (string) $item->getProduct()->getId(),
+            ],
+            array: $order->getItems()->toArray(),
+        );
     }
 }
