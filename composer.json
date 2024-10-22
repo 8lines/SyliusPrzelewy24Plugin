@@ -8,7 +8,8 @@
         "php": "^8.0",
         "sylius/sylius": "~1.12.0 || ~1.13.0",
         "php-http/message-factory": "^1.1",
-        "league/flysystem-bundle": "^2.4"
+        "league/flysystem-bundle": "^2.4",
+        "mnastalski/przelewy24-php": "^1.4"
     },
     "require-dev": {
         "symfony/webpack-encore-bundle": "^1.15",
