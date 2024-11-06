@@ -1,0 +1,17 @@
+sylius_product:
+    resources:
+        product_variant:
+            classes:
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\ProductVariant
+
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Order
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Customer

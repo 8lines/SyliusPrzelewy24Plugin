@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\ProductVariant" table="sylius_product_variant">
+        <one-to-one field="przelewy24ProductVariant" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24ProductVariant" fetch="EAGER">
+            <join-column name="przelewy24_product_variant_id" referenced-column-name="id" nullable="false" />
+
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

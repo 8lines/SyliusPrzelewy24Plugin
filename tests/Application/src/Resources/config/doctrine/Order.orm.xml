@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Order" table="sylius_order">
+        <one-to-one field="przelewy24Order" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order" fetch="EAGER">
+            <join-column name="przelewy24_order_id" referenced-column-name="id" nullable="false" />
+
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

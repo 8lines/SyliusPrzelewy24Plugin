@@ -12,3 +12,11 @@ doctrine:
         charset: UTF8
 
         url: '%env(resolve:DATABASE_URL)%'
+
+    orm:
+        mappings:
+            BitBagSyliusPrzelewy24Plugin:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Resources/config/doctrine'
+                prefix: 'Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity'
