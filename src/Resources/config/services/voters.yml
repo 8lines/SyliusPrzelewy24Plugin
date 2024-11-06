@@ -1,0 +1,7 @@
+services:
+    bitbag_sylius_przelewy24_plugin.voter.przelewy24_credit_card:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Voter\Przelewy24CreditCardVoter
+        arguments:
+            - '@security.helper'
+        tags:
+            - { name: security.voter }

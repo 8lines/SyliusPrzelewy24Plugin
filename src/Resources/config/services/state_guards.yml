@@ -1,0 +1,26 @@
+services:
+    bitbag_sylius_przelewy24_plugin.state_guard.has_przelewy24_subscription_at_least_one_aborted_interval:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\HasPrzelewy24SubscriptionAtLeastOneAbortedIntervalGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.has_przelewy24_subscription_all_intervals_completed:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\HasPrzelewy24SubscriptionAllIntervalsCompletedGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.has_przelewy24_subscription_schedule_interval_three_failed_attempts:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\HasPrzelewy24SubscriptionScheduleIntervalThreeFailedAttemptsGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_not_paid:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalNotPaidGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalPaidGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid_and_expired:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalPaidAndExpiredGuard
+        arguments:
+            - '@clock'

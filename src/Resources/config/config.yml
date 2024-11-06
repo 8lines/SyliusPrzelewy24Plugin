@@ -1,0 +1,4 @@
+imports:
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/resources.yml" }
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/services.yml" }
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/state_machine.yml" }

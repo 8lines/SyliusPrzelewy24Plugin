@@ -1,0 +1,4 @@
+imports:
+    - { resource: state_machine/przelewy24_subscription.yml }
+    - { resource: state_machine/przelewy24_subscription_schedule_interval.yml }
+    - { resource: state_machine/sylius_payment.yml }

@@ -1,0 +1,24 @@
+services:
+    bitbag_sylius_przelewy24_plugin.resolver.default_payment_methods_resolver:
+        decorates: sylius.payment_methods_resolver.default
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\PaymentMethodsResolver
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.resolver.default_payment_methods_resolver.inner'
+
+    bitbag_sylius_przelewy24_plugin.resolver.channel_based_payment_methods_resolver:
+        decorates: sylius.payment_methods_resolver.channel_based
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\PaymentMethodsResolver
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.resolver.channel_based_payment_methods_resolver.inner'
+
+    bitbag_sylius_przelewy24_plugin.resolver.default_payment_method_resolver:
+        decorates: sylius.payment_method_resolver.default
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\DefaultPaymentMethodResolver
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.resolver.default_payment_method_resolver.inner'
+            - '@bitbag_sylius_przelewy24_plugin.resolver.przelewy24_subscription_payment_method'
+
+    bitbag_sylius_przelewy24_plugin.resolver.przelewy24_subscription_payment_method:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\Przelewy24SubscriptionPaymentMethodResolver
+        arguments:
+            - '@sylius.repository.payment_method'

@@ -1,0 +1,6 @@
+services:
+    bitbag_sylius_przelewy24_plugin.generator.przelewy24_subscription_schedule:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Generator\Przelewy24SubscriptionScheduleGenerator
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule'
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule_interval'

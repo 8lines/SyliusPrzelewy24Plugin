@@ -1,0 +1,8 @@
+sylius_resource:
+    resources:
+        bitbag_sylius_przelewy24_plugin.przelewy24_order:
+            driver: doctrine/orm
+            classes:
+                model: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order
+                interface: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24OrderInterface
+                repository: BitBag\SyliusPrzelewy24Plugin\Subscription\Repository\Przelewy24OrderRepository

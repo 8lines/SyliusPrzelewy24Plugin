@@ -1,0 +1,5 @@
+services:
+    bitbag_sylius_przelewy24_plugin.menu.product_variant_menu_listener:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Menu\ProductVariantMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.product_variant.form, method: addRecurringOptionsToProductVariantMenu }

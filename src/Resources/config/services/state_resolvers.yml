@@ -1,0 +1,14 @@
+services:
+    bitbag_sylius_przelewy24_plugin.state_resolver.przelewy24_subscription:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateResolver\Przelewy24SubscriptionStateResolver
+        arguments:
+            - '@sm.factory'
+            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
+
+    bitbag_sylius_przelewy24_plugin.state_resolver.przelewy24_subscription_schedule_interval:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateResolver\Przelewy24SubscriptionScheduleIntervalStateResolver
+        arguments:
+            - '@sm.factory'
+            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription_schedule_interval'

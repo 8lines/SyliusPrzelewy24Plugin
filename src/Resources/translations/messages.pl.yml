@@ -1,7 +1,17 @@
 bitbag_sylius_przelewy24_plugin:
     ui:
-          live: Czy środowisko produkcyjne?
-          crc: CRC
-          reports_key: Klucz reportów
-          merchant_id: Klucz sprzedawcy
-          przelewy24_gateway_label: Przelewy24
+        one_time_gateway_label: Jednorazowa płatność Przelewy24
+        subscription_gateway_label: Subskrypcja Przelewy24
+        environment: Środowisko
+        merchant_id: Identyfikator sprzedawcy
+        reports_key: Klucz raportów
+        crc_key: Klucz CRC
+        sandbox: Testowe
+        production: Produkcyjne
+        recurring: Cykliczne
+        recurring_times: Liczba cykli
+        recurring_interval_in_days: Interwał cykli w dniach
+        cannot_add_product_to_recurring_order: Nie możesz dodać produktu do koszyka cyklicznego.
+        cannot_update_recurring_order_product_quantity: Nie możesz zaktualizować ilości produktu w koszyku cyklicznym.
+        cannot_add_more_than_one_recurring_product: Nie możesz dodać więcej niż jednego produktu cyklicznego do koszyka.
+        cannot_add_recurring_product_to_not_recurring_order_with_products: Nie możesz dodać produktu cyklicznego do koszyka bez produktów cyklicznych.

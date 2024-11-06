@@ -1,7 +1,17 @@
 bitbag_sylius_przelewy24_plugin:
     ui:
-          live: Is production environment?
-          crc: CRC
-          reports_key: Reports key
-          merchant_id: Merchant id
-          przelewy24_gateway_label: Przelewy24
+        one_time_gateway_label: Przelewy24 One Time
+        subscription_gateway_label: Przelewy24 subscription
+        environment: Environment
+        merchant_id: Merchant id
+        reports_key: Reports key
+        crc_key: CRC key
+        sandbox: Sandbox
+        production: Production
+        recurring: Recurring
+        recurring_times: Recurring times
+        recurring_interval_in_days: Recurring interval in days
+        cannot_add_product_to_recurring_order: You cannot add product to recurring cart.
+        cannot_update_recurring_order_product_quantity: You cannot update recurring cart product quantity.
+        cannot_add_more_than_one_recurring_product: You cannot add more than one recurring product to the cart.
+        cannot_add_recurring_product_to_not_recurring_order_with_products: You cannot add recurring product to not recurring cart with products.

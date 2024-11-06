@@ -1,0 +1,35 @@
+services:
+    bitbag_sylius_przelewy24_plugin.cloner.default_adjustment:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\DefaultAdjustmentCloner
+        arguments:
+            - '@sylius.factory.adjustment'
+            - '@doctrine.orm.default_entity_manager'
+
+    bitbag_sylius_przelewy24_plugin.cloner.order_item:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\OrderItemCloner
+        arguments:
+            - '@sylius.factory.order_item'
+            - '@sylius.factory.order_item_unit'
+
+    bitbag_sylius_przelewy24_plugin.cloner.recurring_order:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\RecurringOrderCloner
+        arguments:
+            - '@sylius.factory.order'
+            - '@sylius.order_number_assigner'
+            - '@clock'
+            - '@sylius.random_generator'
+            - '@bitbag_sylius_przelewy24_plugin.cloner.order_item'
+            - '@bitbag_sylius_przelewy24_plugin.cloner.default_adjustment'
+            - '@bitbag_sylius_przelewy24_plugin.cloner.shipment_adjustment'
+            - '@bitbag_sylius_przelewy24_plugin.cloner.shipment'
+
+    bitbag_sylius_przelewy24_plugin.cloner.shipment_adjustment:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\ShipmentAdjustmentCloner
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.cloner.default_adjustment'
+
+    bitbag_sylius_przelewy24_plugin.cloner.shipment:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\ShipmentCloner
+        arguments:
+            - '@sylius.factory.shipment'
+            - '@clock'

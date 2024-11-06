@@ -1,0 +1,10 @@
+services:
+    bitbag_sylius_przelewy24_plugin.command_dispatcher.register_new_subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandDispatcher\RegisterNewSubscriptionDispatcher
+        arguments:
+            - '@messenger.default_bus'
+
+    bitbag_sylius_przelewy24_plugin.command_dispatcher.save_przelewy24_credit_card_if_not_exists:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandDispatcher\SavePrzelewy24CreditCardIfNotExistsDispatcher
+        arguments:
+            - '@messenger.default_bus'

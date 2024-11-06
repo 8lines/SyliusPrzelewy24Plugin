@@ -1,7 +1,15 @@
 bitbag_sylius_przelewy24_plugin:
-    crc:
-        not_blank: CRC nie może być puste.
-    reports_key:
-        not_blank: Klucz raportów nie może być pusty.
+    environment:
+        not_blank: Wybierz środowisko.
     merchant_id:
-        not_blank: Id sprzedawcy nie może być puste.
+        not_blank: Podaj identyfikator sprzedawcy.
+    reports_key:
+        not_blank: Podaj klucz raportów.
+    crc_key:
+        not_blank: Podaj klucz CRC.
+    recurring:
+        not_blank: Wybierz czy produkt ma być cykliczny.
+    recurring_times:
+        min_range: Liczba cykli musi być większa niż {{ min }}.
+    recurring_interval_in_days:
+        min_range: Interwał cykli w dniach musi być większy niż {{ min }}.

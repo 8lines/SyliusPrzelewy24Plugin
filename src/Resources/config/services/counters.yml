@@ -1,0 +1,6 @@
+services:
+    bitbag_sylius_przelewy24_plugin.counter.przelewy24_subscription_schedule_interval_failure_counter:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Counter\Przelewy24SubscriptionScheduleIntervalFailureCounter
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription_schedule_interval'

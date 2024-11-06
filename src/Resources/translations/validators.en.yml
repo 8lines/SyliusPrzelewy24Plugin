@@ -1,7 +1,15 @@
 bitbag_sylius_przelewy24_plugin:
-    crc:
-        not_blank: CRC key cannot be blank.
-    reports_key:
-        not_blank: Reports key cannot be blank.
+    environment:
+        not_blank: Environment cannot be blank.
     merchant_id:
         not_blank: Merchant id cannot be blank.
+    reports_key:
+        not_blank: Reports key cannot be blank.
+    crc_key:
+        not_blank: CRC key cannot be blank.
+    recurring:
+        not_blank: Recurring cannot be blank.
+    recurring_times:
+        min_range: Recurring times must be greater than {{ min }}.
+    recurring_interval_in_days:
+        min_range: Recurring interval in days must be greater than {{ min }}.

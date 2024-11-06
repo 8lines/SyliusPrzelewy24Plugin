@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24CreditCard" table="bitbag_przelewy24_credit_card">
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+
+        <field name="cardMask" type="string" column="card_mask" length="255" nullable="true" />
+        <field name="cardDate" type="string" column="card_date" length="255" nullable="true" />
+        <field name="cardRefId" type="string" column="card_ref_id" length="255" nullable="true" />
+
+        <many-to-one field="owner" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Customer" inversed-by="creditCards" fetch="EAGER">
+            <join-column name="owner_id" referenced-column-name="id" nullable="true" />
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

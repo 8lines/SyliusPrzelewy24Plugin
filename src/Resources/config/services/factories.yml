@@ -1,0 +1,35 @@
+services:
+    bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_credit_card:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\Przelewy24CreditCardFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.przelewy24_credit_card
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_credit_card.inner'
+
+    bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_configuration:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\Przelewy24SubscriptionConfigurationFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.przelewy24_subscription_configuration
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_configuration.inner'
+            - '@router'
+            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_credit_card'
+
+    bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\Przelewy24SubscriptionFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.przelewy24_subscription
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription.inner'
+            - '@clock'
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_configuration'
+            - '@bitbag_sylius_przelewy24_plugin.generator.przelewy24_subscription_schedule'
+
+    bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\Przelewy24SubscriptionScheduleFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.przelewy24_subscription_schedule
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule.inner'
+
+    bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule_interval:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\Przelewy24SubscriptionScheduleIntervalFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.przelewy24_subscription_schedule_interval
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.custom_factory.przelewy24_subscription_schedule_interval.inner'
