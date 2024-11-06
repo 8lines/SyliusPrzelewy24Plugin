@@ -6,7 +6,6 @@ namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Checker;
 
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Przelewy24SubscriptionGatewayFactory;
 use Payum\Core\Payum;
-use Payum\Core\Request\GetStatus;
 use Sylius\Bundle\PayumBundle\Request\GetStatus;
 use Sylius\Component\Core\Model\PaymentInterface;
 
