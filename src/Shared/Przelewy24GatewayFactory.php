@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared;
 
+use Payum\Core\Bridge\Psr\Log\LoggerExtension;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\GatewayFactory;
 use Przelewy24\Enums\Environment;
 use Przelewy24\Przelewy24;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
-abstract class Przelewy24GatewayFactory extends GatewayFactory
+abstract class Przelewy24GatewayFactory extends GatewayFactory implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     protected function initializeApi(ArrayObject $config): void
     {
         if (false === \class_exists(Przelewy24::class)) {
@@ -34,5 +39,10 @@ abstract class Przelewy24GatewayFactory extends GatewayFactory
                 environment: Environment::from($config['environment']),
             );
         };
+    }
+
+    protected function initializeLogger(ArrayObject $config): void
+    {
+        $config['payum.extension.logger'] = new LoggerExtension($this->logger);
     }
 }

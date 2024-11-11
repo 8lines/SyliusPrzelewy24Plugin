@@ -3,6 +3,8 @@ services:
         class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
         arguments:
             -  BitBag\SyliusPrzelewy24Plugin\OneTime\Przelewy24OneTimeGatewayFactory
+        calls:
+            - setLogger: ['@logger']
         tags:
             - { name: payum.gateway_factory_builder, factory: przelewy24_one_time }
 
@@ -10,5 +12,7 @@ services:
         class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
         arguments:
             -  BitBag\SyliusPrzelewy24Plugin\Subscription\Przelewy24SubscriptionGatewayFactory
+        calls:
+            - setLogger: [ '@logger' ]
         tags:
             - { name: payum.gateway_factory_builder, factory: przelewy24_subscription }
