@@ -54,7 +54,6 @@ final class Przelewy24SubscriptionGatewayFactory extends Przelewy24GatewayFactor
             'payum.action.api.fetch_transaction' => new FetchTransactionAction(),
         ]);
 
-        $this->initializeLogger($config);
         $this->initializeApi($config);
     }
 }

@@ -15,14 +15,11 @@ use Przelewy24\Enums\Country;
 use Przelewy24\Enums\Currency;
 use Przelewy24\Enums\Language;
 use Przelewy24\Przelewy24;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 use Webmozart\Assert\Assert;
 
-final class RegisterTransactionAction implements ActionInterface, ApiAwareInterface, LoggerAwareInterface
+final class RegisterTransactionAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;
-    use LoggerAwareTrait;
 
     public function __construct()
     {
@@ -85,8 +82,6 @@ final class RegisterTransactionAction implements ActionInterface, ApiAwareInterf
 
         $request->setGatewayUrl($registeredTransaction->gatewayUrl());
         $request->setTransactionToken($registeredTransaction->token());
-
-        $this->logger->debug('Registered transaction with statusUrl: ' . $model['urlStatus']);
     }
 
     public function supports($request): bool
