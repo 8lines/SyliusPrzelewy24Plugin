@@ -68,6 +68,7 @@ final class Przelewy24SubscriptionConfigurationFactory implements Przelewy24Subs
         $configuration->setRecurringIntervalInDays($przelewy24RecurringProduct->getRecurringIntervalInDays());
         $configuration->setCreditCard($creditCard);
         $configuration->setHostName($this->router->getContext()->getHost());
+        $configuration->setLocaleCode($recurringOrder->getLocaleCode());
 
         return $configuration;
     }

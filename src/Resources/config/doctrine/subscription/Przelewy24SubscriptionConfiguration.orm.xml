@@ -8,6 +8,7 @@
         <field name="recurringTimes" type="integer" column="recurring_times" nullable="true" />
         <field name="recurringIntervalInDays" type="integer" column="recurring_interval_in_days" nullable="true" />
         <field name="hostName" type="string" column="host_name" nullable="true" />
+        <field name="localeCode" type="string" column="locale_code" nullable="true" />
 
         <many-to-one field="creditCard" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24CreditCard" fetch="EAGER">
             <join-column name="credit_card_id" referenced-column-name="id" nullable="true" />

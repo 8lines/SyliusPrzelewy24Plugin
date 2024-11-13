@@ -18,7 +18,7 @@ final class Przelewy24SubscriptionBasedRouterContextApplicator implements Przele
     public function apply(Przelewy24SubscriptionInterface $subscription): void
     {
         $hostName = $subscription->getConfiguration()->getHostName();
-        $localeCode = $subscription->getBaseRecurringOrder()?->getLocaleCode();
+        $localeCode = $subscription->getConfiguration()->getLocaleCode();
 
         Assert::notNull(
             value: $hostName,

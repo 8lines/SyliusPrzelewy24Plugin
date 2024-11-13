@@ -20,6 +20,10 @@ interface Przelewy24SubscriptionConfigurationInterface extends ResourceInterface
 
     public function setHostName(?string $hostName): void;
 
+    public function getLocaleCode(): ?string;
+
+    public function setLocaleCode(?string $localeCode): void;
+
     public function getCreditCard(): ?Przelewy24CreditCardInterface;
 
     public function setCreditCard(?Przelewy24CreditCardInterface $creditCard): void;

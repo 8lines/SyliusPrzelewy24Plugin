@@ -14,6 +14,8 @@ class Przelewy24SubscriptionConfiguration implements Przelewy24SubscriptionConfi
 
     private ?string $hostName;
 
+    private ?string $localeCode;
+
     private ?Przelewy24CreditCardInterface $creditCard;
 
     private ?Przelewy24Subscription $subscription;
@@ -51,6 +53,16 @@ class Przelewy24SubscriptionConfiguration implements Przelewy24SubscriptionConfi
     public function setHostName(?string $hostName): void
     {
         $this->hostName = $hostName;
+    }
+
+    public function getLocaleCode(): ?string
+    {
+        return $this->localeCode;
+    }
+
+    public function setLocaleCode(?string $localeCode): void
+    {
+        $this->localeCode = $localeCode;
     }
 
     public function getCreditCard(): ?Przelewy24CreditCardInterface
