@@ -5,6 +5,7 @@ services:
             - '@sm.factory'
             - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
             - '@bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_payment'
+            - '@logger'
 
     bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_payment:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionPaymentProcessor
@@ -25,3 +26,4 @@ services:
         arguments:
             - '@sm.factory'
             - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
+            - '@logger'

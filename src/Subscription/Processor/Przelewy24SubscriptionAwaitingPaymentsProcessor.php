@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Processor;
 
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionScheduleIntervalInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Repository\Przelewy24SubscriptionRepositoryInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Transition\Przelewy24SubscriptionScheduleIntervalTransition;
+use Psr\Log\LoggerInterface;
 use SM\Factory\Factory;
 use SM\SMException;
 
@@ -17,37 +17,35 @@ final class Przelewy24SubscriptionAwaitingPaymentsProcessor implements Przelewy2
         private readonly Factory $stateMachineFactory,
         private readonly Przelewy24SubscriptionRepositoryInterface $przelewy24SubscriptionRepository,
         private readonly Przelewy24SubscriptionPaymentProcessorInterface $przelewy24SubscriptionPaymentProcessor,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
-    /**
-     * @throws SMException
-     */
     public function process(): void
     {
         $activeSubscriptions = $this->przelewy24SubscriptionRepository->findActiveSubscriptions();
 
         foreach ($activeSubscriptions as $subscription) {
-            $currentInterval = $subscription->getSchedule()->getCurrentInterval();
-
-            if (null === $currentInterval) {
-                continue;
+            try {
+                $this->processPaymentForCurrentIntervalIfAwaitingPayment($subscription);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
             }
-
-            $this->processPaymentForIntervalIfAwaitingPayment(
-                subscription: $subscription,
-                interval: $currentInterval,
-            );
         }
     }
 
     /**
      * @throws SMException
      */
-    private function processPaymentForIntervalIfAwaitingPayment(
+    private function processPaymentForCurrentIntervalIfAwaitingPayment(
         Przelewy24SubscriptionInterface $subscription,
-        Przelewy24SubscriptionScheduleIntervalInterface $interval,
     ): void {
+        $interval = $subscription->getSchedule()->getCurrentInterval();
+
+        if (null === $interval) {
+            return;
+        }
+
         $intervalGraph = $this->stateMachineFactory->get(
             object: $interval,
             graph: Przelewy24SubscriptionScheduleIntervalTransition::GRAPH,

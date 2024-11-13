@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Processor;
 
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionScheduleIntervalInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Repository\Przelewy24SubscriptionRepositoryInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Transition\Przelewy24SubscriptionScheduleIntervalTransition;
+use Psr\Log\LoggerInterface;
 use SM\Factory\Factory;
 use SM\SMException;
 
@@ -16,38 +16,35 @@ final class Przelewy24SubscriptionScheduleIntervalCompletionProcessor implements
     public function __construct(
         private readonly Factory $stateMachineFactory,
         private readonly Przelewy24SubscriptionRepositoryInterface $przelewy24SubscriptionRepository,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
-    /**
-     * @throws SMException
-     */
     public function process(): void
     {
         $activeSubscriptions = $this->przelewy24SubscriptionRepository->findActiveSubscriptions();
 
         foreach ($activeSubscriptions as $subscription) {
-            $schedule = $subscription->getSchedule();
-            $currentInterval = $schedule->getCurrentInterval();
-
-            if (null === $currentInterval) {
-                continue;
+            try {
+                $this->completeCurrentIntervalIfPaidAndExpired($subscription);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception->getMessage());
             }
-
-            $this->completeIntervalIfPaidAndExpired(
-                subscription: $subscription,
-                interval: $currentInterval,
-            );
         }
     }
 
     /**
      * @throws SMException
      */
-    public function completeIntervalIfPaidAndExpired(
-        Przelewy24SubscriptionInterface $subscription,
-        Przelewy24SubscriptionScheduleIntervalInterface $interval,
-    ): void {
+    public function completeCurrentIntervalIfPaidAndExpired(Przelewy24SubscriptionInterface $subscription): void
+    {
+        $schedule = $subscription->getSchedule();
+        $interval = $schedule->getCurrentInterval();
+
+        if (null === $interval) {
+            return;
+        }
+
         $intervalGraph = $this->stateMachineFactory->get(
             object: $interval,
             graph: Przelewy24SubscriptionScheduleIntervalTransition::GRAPH,
