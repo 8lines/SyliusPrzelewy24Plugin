@@ -22,8 +22,7 @@ final class RecurringOrderCloner implements RecurringOrderClonerInterface
         private readonly ClockInterface $clock,
         private readonly RandomnessGeneratorInterface $randomnessGenerator,
         private readonly OrderItemClonerInterface $orderItemCloner,
-        private readonly AdjustmentClonerInterface $defaultAdjustmentCloner,
-        private readonly AdjustmentClonerInterface $shipmentAdjustmentCloner,
+        private readonly AdjustmentClonerInterface $adjustmentCloner,
         private readonly ShipmentClonerInterface $shipmentCloner,
     ) {
     }
@@ -65,7 +64,7 @@ final class RecurringOrderCloner implements RecurringOrderClonerInterface
                 continue;
             }
 
-            $clonedAdjustment = $this->defaultAdjustmentCloner->clone($adjustment);
+            $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
             $clonedRecurringOrder->addAdjustment($clonedAdjustment);
         }
 
@@ -80,14 +79,14 @@ final class RecurringOrderCloner implements RecurringOrderClonerInterface
                     $clonedShipment->addUnit($itemUnit);
                 }
 
-                /*foreach ($shipment->getAdjustments() as $adjustment) {
-                    $clonedAdjustment = $this->shipmentAdjustmentCloner->clone($adjustment);
+                foreach ($shipment->getAdjustments() as $adjustment) {
+                    $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
 
                     $clonedAdjustment->setShipment($clonedShipment);
                     $clonedAdjustment->setAdjustable($clonedRecurringOrder);
 
                     $clonedShipment->addAdjustment($clonedAdjustment);
-                }*/
+                }
             }
         }
 

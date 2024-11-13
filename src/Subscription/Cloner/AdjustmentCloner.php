@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class DefaultAdjustmentCloner implements AdjustmentClonerInterface
+final class AdjustmentCloner implements AdjustmentClonerInterface
 {
     public function __construct(
         private readonly FactoryInterface $adjustmentFactory,
-        private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -32,8 +30,6 @@ final class DefaultAdjustmentCloner implements AdjustmentClonerInterface
         } else {
             $clonedAdjustment->unlock();
         }
-
-        $this->entityManager->persist($clonedAdjustment);
 
         return $clonedAdjustment;
     }
