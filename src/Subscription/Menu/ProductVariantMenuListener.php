@@ -14,7 +14,7 @@ final class ProductVariantMenuListener
         $menu
             ->addChild('recurring')
             ->setAttribute('template', '@BitBagSyliusPrzelewy24Plugin/Admin/ProductVariant/Tab/_recurring.html.twig')
-            ->setLabel('sylius_mollie_plugin.ui.product_variant.tab.recurring')
+            ->setLabel('bitbag_sylius_przelewy24_plugin.ui.recurring')
         ;
     }
 }
