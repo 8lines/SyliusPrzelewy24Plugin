@@ -30,5 +30,7 @@ final class SyncAction extends BaseSyncAction
 
         $cardInfo = $fetchCardInfo->getCardInfo();
         $model['cardRefId'] = $cardInfo->refId();
+        $model['cardMask'] = $cardInfo->mask();
+        $model['cardDate'] = $cardInfo->cardDate();
     }
 }
