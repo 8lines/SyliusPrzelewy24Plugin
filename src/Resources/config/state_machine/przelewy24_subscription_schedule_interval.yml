@@ -6,7 +6,7 @@ winzou_state_machine:
         state_machine_class: "%sylius.state_machine.class%"
         states:
             scheduled: ~
-            unpaid: ~
+            awaiting_payment: ~
             fulfilled: ~
             completed: ~
             aborted: ~
@@ -15,16 +15,16 @@ winzou_state_machine:
                 from: [unpaid, aborted]
                 to: scheduled
             await_payment:
-                from: [scheduled, unpaid]
-                to: unpaid
+                from: [scheduled, awaiting_payment]
+                to: awaiting_payment
             activate:
-                from: [unpaid]
+                from: [awaiting_payment]
                 to: fulfilled
             complete:
                 from: [fulfilled]
                 to: completed
             abort:
-                from: [scheduled, unpaid, fulfilled]
+                from: [scheduled, awaiting_payment, fulfilled]
                 to: aborted
         callbacks:
             guard:

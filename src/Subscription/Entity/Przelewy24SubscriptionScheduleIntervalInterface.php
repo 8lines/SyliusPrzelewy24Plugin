@@ -10,7 +10,7 @@ interface Przelewy24SubscriptionScheduleIntervalInterface extends ResourceInterf
 {
     public const STATE_SCHEDULED = 'scheduled';
 
-    public const STATE_UNPAID = 'unpaid';
+    public const STATE_AWAITING_PAYMENT = 'awaiting_payment';
 
     public const STATE_FULFILLED = 'fulfilled';
 
