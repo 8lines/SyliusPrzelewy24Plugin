@@ -145,7 +145,9 @@ final class Przelewy24SubscriptionPaymentProcessor implements Przelewy24Subscrip
         $gateway = $this->payum->getGateway(Przelewy24SubscriptionGatewayFactory::GATEWAY_NAME);
 
         $gateway->execute($convert = new Convert($recurringPayment, 'array'));
+
         $recurringPayment->setDetails($convert->getResult());
+        $recurringPayment->setState(PaymentInterface::STATE_PROCESSING);
 
         $this->syliusPaymentRepository->add($recurringPayment);
 

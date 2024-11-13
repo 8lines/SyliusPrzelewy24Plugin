@@ -19,8 +19,18 @@ services:
         public: true
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalPaidGuard
 
-    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid_and_expired:
+    bitbag_sylius_przelewy24_plugin.state_guard.has_not_przelewy24_subscription_schedule_interval_active_payment:
         public: true
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalPaidAndExpiredGuard
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\HasNotPrzelewy24SubscriptionScheduleIntervalActivePaymentGuard
+
+    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_expired:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalExpiredGuard
+        arguments:
+            - '@clock'
+
+    bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_starts_at_reached:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\StateGuard\IsPrzelewy24SubscriptionScheduleIntervalStartsAtReachedGuard
         arguments:
             - '@clock'

@@ -28,17 +28,29 @@ winzou_state_machine:
                 to: aborted
         callbacks:
             guard:
+                is_przelewy24_subscription_schedule_interval_starts_at_reached_when_awaiting_payment:
+                    on: ['await_payment']
+                    do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_starts_at_reached', 'isEligible']
+                    args: ['object']
                 is_przelewy24_subscription_schedule_interval_not_paid_when_awaiting_payment:
                     on: ['await_payment']
                     do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_not_paid', 'isEligible']
+                    args: ['object']
+                has_not_przelewy24_subscription_schedule_interval_active_payment_when_awaiting_payment:
+                    on: ['await_payment']
+                    do: ['@bitbag_sylius_przelewy24_plugin.state_guard.has_not_przelewy24_subscription_schedule_interval_active_payment', 'isEligible']
                     args: ['object']
                 is_przelewy24_subscription_schedule_interval_paid_when_activating:
                     on: ['activate']
                     do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid', 'isEligible']
                     args: ['object']
-                is_przelewy24_subscription_schedule_interval_paid_and_expired_when_completing:
+                is_przelewy24_subscription_schedule_interval_paid_when_completing:
                     on: ['complete']
-                    do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid_and_expired', 'isEligible']
+                    do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_paid', 'isEligible']
+                    args: ['object']
+                is_przelewy24_subscription_schedule_interval_expired_when_completing:
+                    on: ['complete']
+                    do: ['@bitbag_sylius_przelewy24_plugin.state_guard.is_przelewy24_subscription_schedule_interval_expired', 'isEligible']
                     args: ['object']
                 has_przelewy24_subscription_schedule_interval_three_failed_attempts_when_aborting:
                     on: ['abort']

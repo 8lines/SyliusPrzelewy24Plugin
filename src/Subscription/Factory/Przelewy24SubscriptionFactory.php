@@ -48,11 +48,11 @@ final class Przelewy24SubscriptionFactory implements Przelewy24SubscriptionFacto
 
         Assert::notNull($syliusCustomer);
 
-        Assert::notNull($recurringOrder->getLastPayment());
-        Assert::notNull($recurringOrder->getLastPayment()?->getMethod());
+        Assert::notNull($recurringOrder->getLastPayment(PaymentInterface::STATE_COMPLETED));
+        Assert::notNull($recurringOrder->getLastPayment(PaymentInterface::STATE_COMPLETED)?->getMethod());
 
         /** @var PaymentInterface $recurringPayment */
-        $recurringPayment = $recurringOrder->getLastPayment();
+        $recurringPayment = $recurringOrder->getLastPayment(PaymentInterface::STATE_COMPLETED);
 
         /** @var PaymentMethodInterface $recurringPaymentMethod */
         $recurringPaymentMethod = $recurringPayment->getMethod();
