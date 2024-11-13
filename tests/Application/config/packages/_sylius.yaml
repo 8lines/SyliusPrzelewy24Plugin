@@ -13,6 +13,7 @@ imports:
 
 parameters:
     sylius_core.public_dir: '%kernel.project_dir%/public'
+    router.request_context.scheme: 'https'
 
 sylius_api:
     enabled: true
