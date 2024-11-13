@@ -11,7 +11,7 @@ class Przelewy24SubscriptionSchedule implements Przelewy24SubscriptionScheduleIn
 {
     private int $id;
 
-    private ?int $currentSequence;
+    private int $currentSequence = 0;
 
     /**
      * @var Collection<Przelewy24SubscriptionScheduleIntervalInterface>
@@ -30,12 +30,12 @@ class Przelewy24SubscriptionSchedule implements Przelewy24SubscriptionScheduleIn
         return $this->id;
     }
 
-    public function getCurrentSequence(): ?int
+    public function getCurrentSequence(): int
     {
         return $this->currentSequence;
     }
 
-    public function setCurrentSequence(?int $currentSequence): void
+    public function setCurrentSequence(int $currentSequence): void
     {
         $this->currentSequence = $currentSequence;
     }

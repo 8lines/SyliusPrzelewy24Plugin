@@ -21,12 +21,8 @@
             </options>
         </field>
 
-        <one-to-one field="syliusOrder" target-entity="Sylius\Component\Core\Model\Order" fetch="EAGER">
-            <join-column name="sylius_order_id" referenced-column-name="id" nullable="true" />
-        </one-to-one>
-
-        <one-to-one field="syliusPayment" target-entity="Sylius\Component\Core\Model\Payment" fetch="EAGER">
-            <join-column name="sylius_payment_id" referenced-column-name="id" nullable="true" />
+        <one-to-one field="order" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order" fetch="EAGER">
+            <join-column name="order_id" referenced-column-name="id" nullable="true" />
         </one-to-one>
 
         <many-to-one field="schedule" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionSchedule" inversed-by="intervals" fetch="EAGER">

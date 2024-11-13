@@ -14,6 +14,8 @@ class Przelewy24Order implements Przelewy24OrderInterface
 
     private ?Przelewy24SubscriptionInterface $subscription;
 
+    private ?RecurringOrderInterface $syliusOrder;
+
     public function getId(): int
     {
         return $this->id;
@@ -47,5 +49,15 @@ class Przelewy24Order implements Przelewy24OrderInterface
     public function setSubscription(Przelewy24SubscriptionInterface $subscription): void
     {
         $this->subscription = $subscription;
+    }
+
+    public function getSyliusOrder(): ?RecurringOrderInterface
+    {
+        return $this->syliusOrder;
+    }
+
+    public function setSyliusOrder(RecurringOrderInterface $syliusOrder): void
+    {
+        $this->syliusOrder = $syliusOrder;
     }
 }

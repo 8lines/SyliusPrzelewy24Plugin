@@ -5,7 +5,11 @@
             <generator strategy="AUTO" />
         </id>
 
-        <field name="currentSequence" type="integer" column="current_sequence" nullable="true" />
+        <field name="currentSequence" type="integer" column="current_sequence" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
 
         <one-to-many field="intervals" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24SubscriptionScheduleInterval" mapped-by="schedule" fetch="EAGER">
             <cascade>

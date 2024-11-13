@@ -19,4 +19,8 @@ interface Przelewy24OrderInterface extends ResourceInterface
     public function getSubscription(): ?Przelewy24SubscriptionInterface;
 
     public function setSubscription(Przelewy24SubscriptionInterface $subscription): void;
+
+    public function getSyliusOrder(): ?RecurringOrderInterface;
+
+    public function setSyliusOrder(RecurringOrderInterface $syliusOrder): void;
 }

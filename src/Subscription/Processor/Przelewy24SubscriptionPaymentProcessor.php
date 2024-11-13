@@ -63,8 +63,7 @@ final class Przelewy24SubscriptionPaymentProcessor implements Przelewy24Subscrip
 
         $this->syliusOrderRepository->add($recurringOrder);
 
-        $interval->setSyliusOrder($recurringOrder);
-        $interval->setSyliusPayment($recurringPayment);
+        $interval->setOrder($recurringOrder->getPrzelewy24Order());
 
         $this->przelewy24SubscriptionRepository->add($subscription);
 
@@ -76,7 +75,7 @@ final class Przelewy24SubscriptionPaymentProcessor implements Przelewy24Subscrip
         Przelewy24SubscriptionScheduleIntervalInterface $interval,
     ): RecurringOrderInterface {
         /** @var RecurringOrderInterface $baseRecurringOrder */
-        $baseRecurringOrder = $subscription->getBaseRecurringOrder();
+        $baseRecurringOrder = $subscription->getBaseOrder()?->getSyliusOrder();
 
         Assert::notNull(
             value: $baseRecurringOrder,

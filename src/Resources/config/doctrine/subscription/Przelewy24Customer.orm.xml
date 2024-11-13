@@ -11,8 +11,6 @@
             </cascade>
         </one-to-many>
 
-        <one-to-one field="syliusCustomer" target-entity="Sylius\Component\Core\Model\Customer" fetch="EAGER">
-            <join-column name="sylius_customer_id" referenced-column-name="id" nullable="true" />
-        </one-to-one>
+        <one-to-one field="syliusCustomer" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\CustomerInterface" mapped-by="przelewy24Customer" fetch="EAGER" />
     </mapped-superclass>
 </doctrine-mapping>

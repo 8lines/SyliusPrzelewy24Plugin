@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Entity;
 
-use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Resource\Model\ResourceInterface;
 
 interface Przelewy24SubscriptionScheduleIntervalInterface extends ResourceInterface
@@ -53,13 +52,9 @@ interface Przelewy24SubscriptionScheduleIntervalInterface extends ResourceInterf
 
     public function resetFailedPaymentAttempts(): void;
 
-    public function getSyliusOrder(): ?RecurringOrderInterface;
+    public function getOrder(): ?Przelewy24OrderInterface;
 
-    public function setSyliusOrder(?RecurringOrderInterface $syliusOrder): void;
-
-    public function getSyliusPayment(): ?PaymentInterface;
-
-    public function setSyliusPayment(?PaymentInterface $syliusPayment): void;
+    public function setOrder(?Przelewy24OrderInterface $order): void;
 
     public function getSchedule(): ?Przelewy24SubscriptionScheduleInterface;
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Entity;
 
-use Sylius\Component\Core\Model\OrderInterface;
-
 class Przelewy24Subscription implements Przelewy24SubscriptionInterface
 {
     public const INITIAL_SEQUENCE = 0;
@@ -16,7 +14,7 @@ class Przelewy24Subscription implements Przelewy24SubscriptionInterface
 
     private ?Przelewy24CustomerInterface $owner;
 
-    private ?OrderInterface $baseRecurringOrder;
+    private ?Przelewy24OrderInterface $baseOrder;
 
     private ?\DateTimeImmutable $startsAt;
 
@@ -74,14 +72,14 @@ class Przelewy24Subscription implements Przelewy24SubscriptionInterface
         $this->owner = $owner;
     }
 
-    public function getBaseRecurringOrder(): ?RecurringOrderInterface
+    public function getBaseOrder(): ?Przelewy24OrderInterface
     {
-        return $this->baseRecurringOrder;
+        return $this->baseOrder;
     }
 
-    public function setBaseRecurringOrder(?RecurringOrderInterface $baseRecurringOrder): void
+    public function setBaseOrder(?Przelewy24OrderInterface $baseOrder): void
     {
-        $this->baseRecurringOrder = $baseRecurringOrder;
+        $this->baseOrder = $baseOrder;
     }
 
     public function getStartsAt(): ?\DateTimeImmutable

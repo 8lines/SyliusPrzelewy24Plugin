@@ -21,9 +21,7 @@ class Przelewy24SubscriptionScheduleInterval implements Przelewy24SubscriptionSc
 
     private int $failedPaymentAttempts;
 
-    private ?OrderInterface $syliusOrder;
-
-    private ?PaymentInterface $syliusPayment;
+    private ?Przelewy24OrderInterface $order;
 
     private ?Przelewy24SubscriptionSchedule $schedule;
 
@@ -55,7 +53,7 @@ class Przelewy24SubscriptionScheduleInterval implements Przelewy24SubscriptionSc
 
     public function isPaid(): bool
     {
-        return PaymentInterface::STATE_COMPLETED === $this->syliusPayment?->getState();
+        return PaymentInterface::STATE_COMPLETED === $this->order?->getSyliusOrder()?->getLastPayment()?->getState();
     }
 
     public function isFulfilled(): bool
@@ -123,24 +121,14 @@ class Przelewy24SubscriptionScheduleInterval implements Przelewy24SubscriptionSc
         $this->failedPaymentAttempts = 0;
     }
 
-    public function getSyliusOrder(): ?RecurringOrderInterface
+    public function getOrder(): ?Przelewy24OrderInterface
     {
-        return $this->syliusOrder;
+        return $this->order;
     }
 
-    public function setSyliusOrder(?RecurringOrderInterface $syliusOrder): void
+    public function setOrder(?Przelewy24OrderInterface $order): void
     {
-        $this->syliusOrder = $syliusOrder;
-    }
-
-    public function getSyliusPayment(): ?PaymentInterface
-    {
-        return $this->syliusPayment;
-    }
-
-    public function setSyliusPayment(?PaymentInterface $syliusPayment): void
-    {
-        $this->syliusPayment = $syliusPayment;
+        $this->order = $order;
     }
 
     public function getSchedule(): ?Przelewy24SubscriptionScheduleInterface

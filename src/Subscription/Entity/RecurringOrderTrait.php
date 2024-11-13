@@ -9,12 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 trait RecurringOrderTrait
 {
     /**
-     * @ORM\OneToOne(targetEntity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order", cascade={"all"}, fetch="EAGER")
+     * @ORM\OneToOne(inversedBy="syliusOrder", targetEntity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumn(name="przelewy24_order_id", referencedColumnName="id", nullable=false)
      */
-    #[ORM\OneToOne(targetEntity: Przelewy24Order::class, cascade: ['all'], fetch: 'EAGER')]
+    #[ORM\OneToOne(inversedBy: 'syliusOrder', targetEntity: Przelewy24Order::class, cascade: ['all'], fetch: 'EAGER')]
     #[ORM\JoinColumn(name: 'przelewy24_order_id', referencedColumnName: 'id', nullable: false)]
     private Przelewy24OrderInterface $przelewy24Order;
+
+    public function __construct()
+    {
+        $this->przelewy24Order = new Przelewy24Order();
+        $this->przelewy24Order->setSyliusOrder($this);
+    }
 
     public function getPrzelewy24Order(): Przelewy24OrderInterface
     {

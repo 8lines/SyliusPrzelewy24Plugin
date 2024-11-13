@@ -14,7 +14,7 @@ interface Przelewy24CustomerInterface extends ResourceInterface
      */
     public function getCreditCards(): Collection;
 
-    public function addCreditCard(Przelewy24CreditCard $creditCard);
+    public function addCreditCard(Przelewy24CreditCardInterface $creditCard);
 
     public function getSyliusCustomer(): ?CustomerInterface;
 

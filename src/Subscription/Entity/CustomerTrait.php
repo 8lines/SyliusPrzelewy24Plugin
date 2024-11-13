@@ -9,11 +9,18 @@ use Doctrine\ORM\Mapping as ORM;
 trait CustomerTrait
 {
     /**
-     * @ORM\OneToOne( targetEntity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Customer", cascade={"all"}, fetch="EAGER")
+     * @ORM\OneToOne(inversedBy="syliusCustomer", targetEntity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Customer", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumn(name="przelewy24_customer_id", referencedColumnName="id", nullable=false)
      */
-    #[ORM\OneToOne(targetEntity: Przelewy24Customer::class, cascade: ['all'], fetch: 'EAGER')]
+    #[ORM\OneToOne(inversedBy: 'syliusCustomer', targetEntity: Przelewy24Customer::class, cascade: ['all'], fetch: 'EAGER')]
+    #[ORM\JoinColumn(name: 'przelewy24_customer_id', referencedColumnName: 'id', nullable: false)]
     private Przelewy24CustomerInterface $przelewy24Customer;
+
+    public function __construct()
+    {
+        $this->przelewy24Customer = new Przelewy24Customer();
+        $this->przelewy24Customer->setSyliusCustomer($this);
+    }
 
     public function getPrzelewy24Customer(): Przelewy24CustomerInterface
     {

@@ -15,8 +15,8 @@
             <join-column name="owner_id" referenced-column-name="id" nullable="true" />
         </many-to-one>
 
-        <one-to-one field="baseRecurringOrder" target-entity="Sylius\Component\Core\Model\OrderInterface" fetch="EAGER">
-            <join-column name="base_recurring_order_id" referenced-column-name="id" nullable="true" />
+        <one-to-one field="baseOrder" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order" fetch="EAGER">
+            <join-column name="base_order_id" referenced-column-name="id" nullable="true" />
         </one-to-one>
 
         <field name="startsAt" type="datetime_immutable" column="starts_at" nullable="true" />

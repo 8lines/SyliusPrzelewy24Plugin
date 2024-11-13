@@ -28,9 +28,9 @@ interface Przelewy24SubscriptionInterface extends ResourceInterface
 
     public function setOwner(?Przelewy24CustomerInterface $owner): void;
 
-    public function getBaseRecurringOrder(): ?RecurringOrderInterface;
+    public function getBaseOrder(): ?Przelewy24OrderInterface;
 
-    public function setBaseRecurringOrder(?RecurringOrderInterface $baseRecurringOrder): void;
+    public function setBaseOrder(?Przelewy24OrderInterface $baseOrder): void;
 
     public function getStartsAt(): ?\DateTimeImmutable;
 

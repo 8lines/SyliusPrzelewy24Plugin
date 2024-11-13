@@ -34,7 +34,7 @@ class Przelewy24Customer implements Przelewy24CustomerInterface
         return $this->creditCards;
     }
 
-    public function addCreditCard(Przelewy24CreditCard $creditCard): void
+    public function addCreditCard(Przelewy24CreditCardInterface $creditCard): void
     {
         $creditCard->setOwner($this);
         $this->creditCards->add($creditCard);

@@ -16,6 +16,11 @@ trait RecurringProductVariantTrait
     #[ORM\JoinColumn(name: 'przelewy24_product_variant_id', referencedColumnName: 'id', nullable: false)]
     private Przelewy24ProductVariantInterface $przelewy24ProductVariant;
 
+    public function __construct()
+    {
+        $this->przelewy24ProductVariant = new Przelewy24ProductVariant();
+    }
+
     public function getPrzelewy24ProductVariant(): Przelewy24ProductVariantInterface
     {
         return $this->przelewy24ProductVariant;

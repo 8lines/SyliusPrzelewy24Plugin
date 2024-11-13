@@ -9,9 +9,9 @@ use Sylius\Resource\Model\ResourceInterface;
 
 interface Przelewy24SubscriptionScheduleInterface extends ResourceInterface
 {
-    public function getCurrentSequence(): ?int;
+    public function getCurrentSequence(): int;
 
-    public function setCurrentSequence(?int $currentSequence): void;
+    public function setCurrentSequence(int $currentSequence): void;
 
     public function incrementCurrentSequence(): void;
 

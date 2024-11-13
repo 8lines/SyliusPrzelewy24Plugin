@@ -87,8 +87,7 @@ final class Przelewy24SubscriptionFactory implements Przelewy24SubscriptionFacto
         );
 
         $initialInterval->setState(Przelewy24SubscriptionScheduleIntervalInterface::STATE_FULFILLED);
-        $initialInterval->setSyliusOrder($recurringOrder);
-        $initialInterval->setSyliusPayment($recurringPayment);
+        $initialInterval->setOrder($recurringOrder->getPrzelewy24Order());
 
         $subscription = $this->createNew();
 
@@ -97,7 +96,7 @@ final class Przelewy24SubscriptionFactory implements Przelewy24SubscriptionFacto
         $subscription->setEndsAt($endsAt);
         $subscription->setConfiguration($configuration);
         $subscription->setSchedule($schedule);
-        $subscription->setBaseRecurringOrder($recurringOrder);
+        $subscription->setBaseOrder($recurringOrder->getPrzelewy24Order());
 
         return $subscription;
     }
