@@ -1,29 +1,19 @@
 services:
-    bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_awaiting_payments:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionAwaitingPaymentsProcessor
+    bitbag.sylius_przelewy24_plugin.processor.payment_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentRequestProcessor
         arguments:
-            - '@sm.factory'
-            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
-            - '@bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_payment'
-            - '@logger'
+            - '@sylius_abstraction.state_machine'
 
-    bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_payment:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionPaymentProcessor
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessor
         arguments:
-            - '@payum'
-            - '@sylius.factory.payment'
-            - '@sylius.repository.order'
-            - '@sylius.repository.payment'
-            - '@bitbag_sylius_przelewy24_plugin.cloner.recurring_order'
-            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
-            - '@bitbag_sylius_przelewy24_plugin.resolver.przelewy24_subscription_payment_method'
-            - '@bitbag_sylius_przelewy24_plugin.applicator.przelewy24_subscription_based_router_context'
-            - '@bitbag_sylius_przelewy24_plugin.checker.is_przelewy24_subscription_payment_failed'
-            - '@bitbag_sylius_przelewy24_plugin.applicator.payment_failed_state'
+            - '@bitbag.sylius_przelewy24_plugin.checker.composite_przelewy24_one_time_transaction_notification_validity'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.verifier.transaction'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'
 
-    bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_schedule_interval_completion:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionScheduleIntervalCompletionProcessor
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessor
         arguments:
-            - '@sm.factory'
-            - '@bitbag_sylius_przelewy24_plugin.repository.przelewy24_subscription'
-            - '@logger'
+            - '@bitbag.sylius_przelewy24_plugin.checker.composite_przelewy24_subscription_transaction_notification_validity'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.verifier.transaction'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'

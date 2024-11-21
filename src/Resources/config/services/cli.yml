@@ -1,8 +1,7 @@
 services:
-    bitbag_sylius_przelewy24_plugin.cli.process_subscriptions:
+    bitbag.sylius_przelewy24_plugin.cli.process_subscriptions:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cli\ProcessSubscriptions
         arguments:
-            - '@bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_schedule_interval_completion'
-            - '@bitbag_sylius_przelewy24_plugin.processor.przelewy24_subscription_awaiting_payments'
+            - '@bitbag.sylius_przelewy24_plugin.subscription_processing.active_subscriptions_processor'
         tags:
-            - { name: console.command }
+            - name: console.command

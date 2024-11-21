@@ -1,0 +1,11 @@
+services:
+    bitbag.sylius_przelewy24_plugin.synchronizer.composite_przelewy24_one_time_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\CompositeTransactionSynchronizer
+        calls:
+            - ['addSynchronizer', ['@bitbag.sylius_przelewy24_plugin.przelewy24.synchronizer.transaction', '100']]
+
+    bitbag.sylius_przelewy24_plugin.synchronizer.composite_przelewy24_subscription_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\CompositeTransactionSynchronizer
+        calls:
+            - ['addSynchronizer', ['@bitbag.sylius_przelewy24_plugin.przelewy24.synchronizer.transaction', '200']]
+            - ['addSynchronizer', ['@bitbag.sylius_przelewy24_plugin.przelewy24.synchronizer.card', '100']]

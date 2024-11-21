@@ -1,0 +1,11 @@
+sylius_twig_hooks:
+    hooks:
+        sylius_admin.product_variant.update.content.form.sections:
+            recurring:
+                template: '@BitBagSyliusPrzelewy24Plugin/admin/product_variant/form/section/recurring_przelewy24_product_variant.html.twig'
+                priority: 0
+
+        sylius_admin.product_variant.update.content.form.side_navigation:
+            recurring:
+                template: '@BitBagSyliusPrzelewy24Plugin/admin/product_variant/form/side_navigation/recurring_przelewy24_product_variant.html.twig'
+                priority: 0

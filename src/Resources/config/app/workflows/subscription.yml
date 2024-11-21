@@ -1,0 +1,21 @@
+framework:
+    workflows:
+        !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::GRAPH:
+            type: state_machine
+            marking_store:
+                type: method
+                property: state
+            supports:
+                - BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface
+            initial_marking: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
+            places:
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_COMPLETED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ABORTED
+            transitions:
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::TRANSITION_COMPLETE:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_COMPLETED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::TRANSITION_ABORT:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ABORTED

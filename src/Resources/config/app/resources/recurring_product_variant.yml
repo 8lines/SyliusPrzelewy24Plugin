@@ -1,0 +1,7 @@
+sylius_resource:
+    resources:
+        bitbag_sylius_przelewy24_plugin.recurring_product_variant:
+            driver: doctrine/orm
+            classes:
+                model: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringProductVariant
+                interface: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringProductVariantInterface

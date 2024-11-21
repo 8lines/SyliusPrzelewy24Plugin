@@ -8,11 +8,11 @@ use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Clock\ClockInterface;
 
-final class ShipmentCloner implements ShipmentClonerInterface
+final readonly class ShipmentCloner implements ShipmentClonerInterface
 {
     public function __construct(
-        private readonly FactoryInterface $shipmentFactory,
-        private readonly ClockInterface $clock,
+        private FactoryInterface $shipmentFactory,
+        private ClockInterface $clock,
     ) {
     }
 

@@ -1,10 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use Tests\BitBag\SyliusPrzelewy24Plugin\Application\Kernel;
+use Tests\BitBag\SyliusPrzelewy24Plugin\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Debug\Debug;
 
 set_time_limit(0);
 

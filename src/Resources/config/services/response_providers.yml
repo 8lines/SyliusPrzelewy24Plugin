@@ -1,0 +1,22 @@
+services:
+    bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_one_time:
+        class: Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider
+        arguments:
+            - !tagged_locator
+                tag: bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_one_time
+                index_by: action
+        tags:
+            - name: sylius.payment_request.provider.http_response
+              gateway-factory: 'przelewy24_one_time'
+
+    bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_subscription:
+        class: Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider
+        arguments:
+            - !tagged_locator
+                tag: bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_subscription
+                index_by: action
+        tags:
+            - name: sylius.payment_request.provider.http_response
+              gateway-factory: 'przelewy24_subscription'
+
+

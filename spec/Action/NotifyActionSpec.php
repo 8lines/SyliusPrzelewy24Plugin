@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusPrzelewy24Plugin\Action;
 
-use BitBag\SyliusPrzelewy24Plugin\Action\NotifyAction;
 use BitBag\SyliusPrzelewy24Plugin\Bridge\Przelewy24BridgeInterface;
+use BitBag\SyliusPrzelewy24Plugin\OneTime\Action\NotifyAction;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\GatewayAwareInterface;

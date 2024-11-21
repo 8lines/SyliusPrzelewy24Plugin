@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity;
+namespace Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity;
 
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringOrderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringOrderTrait;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringSyliusOrderInterface;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringSyliusOrderTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
 
-class Order extends BaseOrder implements RecurringOrderInterface
+class Order extends BaseOrder implements RecurringSyliusOrderInterface
 {
-    use RecurringOrderTrait {
+    use RecurringSyliusOrderTrait {
         __construct as private __orderConstruct;
     }
 

@@ -1,11 +1,23 @@
 services:
-    bitbag_sylius_przelewy24_plugin.applicator.przelewy24_subscription_based_router_context:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Applicator\Przelewy24SubscriptionBasedRouterContextApplicator
+    bitbag.sylius_przelewy24_plugin.applicator.order_recurring_state:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Applicator\OrderRecurringStateApplicator
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@sylius.repository.order'
+
+    bitbag.sylius_przelewy24_plugin.applicator.order_not_recurring_state:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Applicator\OrderNotRecurringStateApplicator
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@sylius.repository.order'
+
+    bitbag.sylius_przelewy24_plugin.applicator.subscription_based_router_context:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Applicator\SubscriptionBasedRouterContextApplicator
         arguments:
             - '@router'
 
-    bitbag_sylius_przelewy24_plugin.applicator.payment_failed_state:
+    bitbag.sylius_przelewy24_plugin.applicator.payment_failed_state:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Applicator\PaymentFailedStateApplicator
         arguments:
-            - '@sm.factory'
+            - '@sylius_abstraction.state_machine'
             - '@sylius.repository.payment'

@@ -1,0 +1,5 @@
+services:
+    bitbag.sylius_przelewy24_plugin.fixer.cart_compatibility:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Fixer\CartCompatibilityFixer
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.guard.cart.composite_compatibility'

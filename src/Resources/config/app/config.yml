@@ -1,0 +1,4 @@
+imports:
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/app/workflows.yml" }
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/app/resources.yml" }
+    - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/app/twig_hooks.yml" }

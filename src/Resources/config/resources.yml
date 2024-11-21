@@ -1,9 +1,0 @@
-imports:
-    - { resource: resources/przelewy24_credit_card.yml }
-    - { resource: resources/przelewy24_customer.yml }
-    - { resource: resources/przelewy24_order.yml }
-    - { resource: resources/przelewy24_product_variant.yml }
-    - { resource: resources/przelewy24_subscription.yml }
-    - { resource: resources/przelewy24_subscription_configuration.yml }
-    - { resource: resources/przelewy24_subscription_schedule.yml }
-    - { resource: resources/przelewy24_subscription_schedule_interval.yml }

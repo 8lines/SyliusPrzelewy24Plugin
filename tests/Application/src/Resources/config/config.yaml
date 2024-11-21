@@ -2,16 +2,16 @@ sylius_product:
     resources:
         product_variant:
             classes:
-                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\ProductVariant
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\ProductVariant
 
 sylius_order:
     resources:
         order:
             classes:
-                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Order
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\Order
 
 sylius_customer:
     resources:
         customer:
             classes:
-                model: Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Customer
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\Customer

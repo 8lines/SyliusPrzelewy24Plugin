@@ -1,0 +1,16 @@
+services:
+    bitbag.sylius_przelewy24_plugin.provider.payment_http_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentHttpRequestProvider
+
+    bitbag.sylius_przelewy24_plugin.provider.payment_order:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentOrderProvider
+
+    bitbag.sylius_przelewy24_plugin.provider.payment_payload:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProvider
+
+    bitbag.sylius_przelewy24_plugin.provider.przelewy24_gateway_notify_payment:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Provider\Przelewy24GatewayNotifyPaymentProvider
+        arguments:
+            - '@sylius.repository.payment_request'
+        tags:
+            - name: sylius.payment_request.payment_notify_provider

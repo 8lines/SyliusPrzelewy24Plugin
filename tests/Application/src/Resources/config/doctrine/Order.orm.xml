@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-    <mapped-superclass name="Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity\Order" table="sylius_order">
-        <one-to-one field="przelewy24Order" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Przelewy24Order" inversed-by="syliusOrder" fetch="EAGER">
-            <join-column name="przelewy24_order_id" referenced-column-name="id" nullable="false" />
+    <mapped-superclass name="Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\Order" table="sylius_order">
+        <one-to-one field="przelewy24Order" target-entity="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringOrder" inversed-by="syliusOrder" fetch="EAGER">
+            <join-column name="przelewy24_recurring_order_id" referenced-column-name="id" nullable="false" />
 
             <cascade>
                 <cascade-all />

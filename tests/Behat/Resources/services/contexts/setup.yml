@@ -1,5 +1,5 @@
 services:
-    bitbag_sylius_przelewy24_plugin.context.setup.przelewy24:
+    bitbag.sylius_przelewy24_plugin.context.setup.przelewy24:
         class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Context\Setup\Przelewy24Context
         public: true
         arguments:

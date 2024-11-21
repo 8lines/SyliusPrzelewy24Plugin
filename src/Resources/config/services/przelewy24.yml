@@ -1,0 +1,76 @@
+services:
+    bitbag.sylius_przelewy24_plugin.przelewy24.factory.api_client:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Client\Factory\Przelewy24ClientFactory
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Client\Provider\Przelewy24ApiClientProvider
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.factory.api_client'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.creator.one_time_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Creator\Przelewy24OneTimeTransactionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_order'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@sylius_payum.provider.payment_description'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.transaction_token'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_response.gateway_url'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.creator.subscription_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Creator\Przelewy24SubscriptionTransactionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_order'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@sylius_payum.provider.payment_description'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.transaction_token'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_response.gateway_url'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.synchronizer.transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Synchronizer\Przelewy24TransactionSynchronizer
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.synchronizer.card:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Card\Synchronizer\Przelewy24CardSynchronizer
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.checker.transaction_notification_session_id_validity:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Notification\Checker\Przelewy24TransactionNotificationSessionIdValidityChecker
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_http_request'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.checker.transaction_notification_sign_validity:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Notification\Checker\Przelewy24TransactionNotificationSignValidityChecker
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_http_request'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_order'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.verifier.transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Verifier\Przelewy24TransactionVerifier
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\StateResolver\Przelewy24PaymentStateResolver
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@sylius_abstraction.state_machine'
+
+    bitbag.sylius_przelewy24_plugin.przelewy24.charger.card:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Card\Charger\Przelewy24CardCharger
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'

@@ -23,41 +23,41 @@ abstract class Przelewy24GatewayConfigurationType extends AbstractType
     {
         $builder
             ->add('environment', ChoiceType::class, [
-                'label' => 'bitbag_sylius_przelewy24_plugin.ui.environment',
+                'label' => 'bitbag.sylius_przelewy24_plugin.ui.environment',
                 'choices' => [
-                    'bitbag_sylius_przelewy24_plugin.ui.sandbox' => Environment::SANDBOX,
-                    'bitbag_sylius_przelewy24_plugin.ui.production' => Environment::PRODUCTION,
+                    'bitbag.sylius_przelewy24_plugin.ui.sandbox' => Environment::SANDBOX,
+                    'bitbag.sylius_przelewy24_plugin.ui.production' => Environment::PRODUCTION,
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'bitbag_sylius_przelewy24_plugin.environment.not_blank',
+                        'message' => 'bitbag.sylius_przelewy24_plugin.environment.not_blank',
                         'groups' => ['sylius'],
                     ]),
                 ],
             ])
             ->add('merchant_id', TextType::class, [
-                'label' => 'bitbag_sylius_przelewy24_plugin.ui.merchant_id',
+                'label' => 'bitbag.sylius_przelewy24_plugin.ui.merchant_id',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'bitbag_sylius_przelewy24_plugin.merchant_id.not_blank',
+                        'message' => 'bitbag.sylius_przelewy24_plugin.merchant_id.not_blank',
                         'groups' => ['sylius'],
                     ]),
                 ],
             ])
             ->add('reports_key', TextType::class, [
-                'label' => 'bitbag_sylius_przelewy24_plugin.ui.reports_key',
+                'label' => 'bitbag.sylius_przelewy24_plugin.ui.reports_key',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'bitbag_sylius_przelewy24_plugin.reports_key.not_blank',
+                        'message' => 'bitbag.sylius_przelewy24_plugin.reports_key.not_blank',
                         'groups' => ['sylius'],
                     ]),
                 ],
             ])
             ->add('crc_key', TextType::class, [
-                'label' => 'bitbag_sylius_przelewy24_plugin.ui.crc_key',
+                'label' => 'bitbag.sylius_przelewy24_plugin.ui.crc_key',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'bitbag_sylius_przelewy24_plugin.crc_key.not_blank',
+                        'message' => 'bitbag.sylius_przelewy24_plugin.crc_key.not_blank',
                         'groups' => ['sylius'],
                     ]),
                 ],

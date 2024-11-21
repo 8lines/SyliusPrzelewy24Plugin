@@ -1,0 +1,73 @@
+services:
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription.at_least_one_interval_aborted:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\Subscription\AtLeastOneIntervalAbortedGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription.guard.abort
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription.each_interval_completed:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\Subscription\EachIntervalCompletedGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription.guard.complete
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.interval_expired:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\IntervalExpiredGuard
+        arguments:
+            - '@clock'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.complete
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.interval_not_paid:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\IntervalNotPaidGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.await_payment
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.interval_paid:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\IntervalPaidGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.activate
+              method: guardReview
+              priority: 100
+
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.complete
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.interval_starts_at_reached:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\IntervalStartsAtReachedGuard
+        arguments:
+            - '@clock'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.await_payment
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.no_active_payment:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\NoActivePaymentGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.await_payment
+              method: guardReview
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.three_failed_attempts:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\ThreeFailedAttemptsGuard
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.guard.abort
+              method: guardReview
+              priority: 100

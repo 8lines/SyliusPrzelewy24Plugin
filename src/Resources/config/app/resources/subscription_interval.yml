@@ -1,0 +1,8 @@
+sylius_resource:
+    resources:
+        bitbag_sylius_przelewy24_plugin.subscription_interval:
+            driver: doctrine/orm
+            classes:
+                model: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterval
+                interface: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface
+                repository: BitBag\SyliusPrzelewy24Plugin\Subscription\Repository\SubscriptionIntervalRepository

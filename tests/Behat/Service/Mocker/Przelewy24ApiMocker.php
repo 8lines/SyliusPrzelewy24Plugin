@@ -25,7 +25,7 @@ final class Przelewy24ApiMocker
     public function mockApiSuccessfulVerifyTransaction(callable $action): void
     {
         $mockService = $this->mocker
-            ->mockService('bitbag_sylius_przelewy24_plugin.bridge.przelewy24', Przelewy24BridgeInterface::class)
+            ->mockService('bitbag.sylius_przelewy24_plugin.bridge.przelewy24', Przelewy24BridgeInterface::class)
         ;
 
         $mockService->shouldReceive('setAuthorizationData');
@@ -34,6 +34,6 @@ final class Przelewy24ApiMocker
 
         $action();
 
-        $this->mocker->unmockService('bitbag_sylius_przelewy24_plugin.bridge.przelewy24');
+        $this->mocker->unmockService('bitbag.sylius_przelewy24_plugin.bridge.przelewy24');
     }
 }

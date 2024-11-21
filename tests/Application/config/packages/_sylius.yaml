@@ -1,22 +1,16 @@
 imports:
     - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
-
-    - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
+    - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
+    - { resource: "@SyliusPayumBundle/Resources/config/app/config.yaml" }
 
     - { resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/config.yml" }
-
     - { resource: "../../src/Resources/config/config.yaml" }
 
 parameters:
     sylius_core.public_dir: '%kernel.project_dir%/public'
     router.request_context.scheme: 'https'
-
-sylius_api:
-    enabled: true
 
 sylius_shop:
     product_grid:
@@ -26,3 +20,6 @@ sylius_mailer:
     emails:
         order_confirmation:
             enabled: false
+
+sylius_api:
+    enabled: true

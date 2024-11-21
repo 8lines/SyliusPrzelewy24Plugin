@@ -1,0 +1,14 @@
+services:
+    bitbag.sylius_przelewy24_plugin.order_pay.http_response.przelewy24_one_time.capture:
+        class: BitBag\SyliusPrzelewy24Plugin\OneTime\OrderPay\Provider\CaptureHttpResponseProvider
+        tags:
+            -   name: bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_one_time
+                action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE
+
+    bitbag.sylius_przelewy24_plugin.order_pay.http_response.przelewy24_subscription.capture:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\OrderPay\Provider\CaptureHttpResponseProvider
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+        tags:
+            - name: bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_subscription
+              action: !php/const Sylius\Component\Payment\Model\PaymentRequestInterface::ACTION_CAPTURE

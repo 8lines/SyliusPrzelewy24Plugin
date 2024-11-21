@@ -1,27 +1,27 @@
 services:
-    bitbag_sylius_przelewy24_plugin.cloner.adjustment:
+    bitbag.sylius_przelewy24_plugin.cloner.adjustment:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\AdjustmentCloner
         arguments:
             - '@sylius.factory.adjustment'
 
-    bitbag_sylius_przelewy24_plugin.cloner.order_item:
+    bitbag.sylius_przelewy24_plugin.cloner.order_item:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\OrderItemCloner
         arguments:
             - '@sylius.factory.order_item'
             - '@sylius.factory.order_item_unit'
 
-    bitbag_sylius_przelewy24_plugin.cloner.recurring_order:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\RecurringOrderCloner
+    bitbag.sylius_przelewy24_plugin.cloner.order:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\OrderCloner
         arguments:
             - '@sylius.factory.order'
-            - '@sylius.order_number_assigner'
+            - '@sylius.number_assigner.order_number'
             - '@clock'
             - '@sylius.random_generator'
-            - '@bitbag_sylius_przelewy24_plugin.cloner.order_item'
-            - '@bitbag_sylius_przelewy24_plugin.cloner.adjustment'
-            - '@bitbag_sylius_przelewy24_plugin.cloner.shipment'
+            - '@bitbag.sylius_przelewy24_plugin.cloner.order_item'
+            - '@bitbag.sylius_przelewy24_plugin.cloner.adjustment'
+            - '@bitbag.sylius_przelewy24_plugin.cloner.shipment'
 
-    bitbag_sylius_przelewy24_plugin.cloner.shipment:
+    bitbag.sylius_przelewy24_plugin.cloner.shipment:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\ShipmentCloner
         arguments:
             - '@sylius.factory.shipment'

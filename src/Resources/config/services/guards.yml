@@ -1,0 +1,12 @@
+services:
+    bitbag.sylius_przelewy24_plugin.guard.cart.only_one_recurring_product:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\Cart\OnlyOneRecurringProductGuard
+
+    bitbag.sylius_przelewy24_plugin.guard.cart.recurring_product_or_not_recurring_product:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\Cart\RecurringProductOrNotRecurringProductGuard
+
+    bitbag.sylius_przelewy24_plugin.guard.cart.composite_compatibility:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\Cart\CompositeCartCompatibilityGuard
+        calls:
+            - ['addGuard', ['@bitbag.sylius_przelewy24_plugin.guard.cart.recurring_product_or_not_recurring_product', '200']]
+            - ['addGuard', ['@bitbag.sylius_przelewy24_plugin.guard.cart.only_one_recurring_product', '100']]

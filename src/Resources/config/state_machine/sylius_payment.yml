@@ -1,8 +1,0 @@
-winzou_state_machine:
-    sylius_payment:
-        callbacks:
-            after:
-                sylius_payment_state_change:
-                    on: ["complete", "fail"]
-                    do: ["@bitbag_sylius_przelewy24_plugin.state_processor.sylius_payment", "process"]
-                    args: ["object"]

@@ -1,0 +1,89 @@
+services:
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadAssigner
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.empty_payload:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadEmptyPayloadAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.after_url:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadAfterUrlAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.resolver.payment.after_url'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.notify_url:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadNotifyUrlAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.resolver.payment.notify_url'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.session_id:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadSessionIdAssigner
+        arguments:
+            - '@sylius.random_generator'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.transaction_token:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadTransactionTokenAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.recurring:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Assigner\PaymentPayloadRecurringAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.checker.is_payment_order_recurring'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.pay_with_existing_card:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Assigner\PaymentPayloadPayWithExistingCardAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.checker.is_paying_with_existing_card'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.initializing_subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Assigner\PaymentPayloadInitializingSubscriptionAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.checker.is_payment_initializing_subscription'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_payload.card_ref_id:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Assigner\PaymentPayloadCardRefIdAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.assigner.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_order'
+            - '@bitbag.sylius_przelewy24_plugin.resolver.card_ref_id'
+
+    bitbag.sylius_przelewy24_plugin.assigner.composite_payment_payload.one_time_transaction_session:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\CompositePaymentPayloadTransactionSessionAssigner
+        calls:
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.empty_payload', '400']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.session_id', '300']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.after_url', '200']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.notify_url', '100']]
+
+    bitbag.sylius_przelewy24_plugin.assigner.composite_payment_payload.subscription_transaction_session:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\CompositePaymentPayloadTransactionSessionAssigner
+        calls:
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.empty_payload', '700']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.session_id', '600']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.after_url', '500']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.notify_url', '400']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.card_ref_id', '300']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.recurring', '300']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.pay_with_existing_card', '200']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.payment_payload.initializing_subscription', '100']]
+
+    bitbag.sylius_przelewy24_plugin.assigner.payment_response.gateway_url:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentResponseGatewayUrlAssigner
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'

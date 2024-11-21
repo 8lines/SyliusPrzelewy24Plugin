@@ -1,0 +1,34 @@
+services:
+    bitbag.sylius_przelewy24_plugin.creator.card:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Creator\CardCreator
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.card'
+            - '@bitbag.sylius_przelewy24_plugin.custom_factory.card'
+
+    bitbag.sylius_przelewy24_plugin.creator.subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Creator\SubscriptionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.custom_factory.subscription'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+
+    bitbag.sylius_przelewy24_plugin.creator.one_time_transaction_session:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\TransactionSessionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.assigner.composite_payment_payload.one_time_transaction_session'
+
+    bitbag.sylius_przelewy24_plugin.creator.subscription_transaction_session:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\TransactionSessionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.assigner.composite_payment_payload.subscription_transaction_session'
+
+    bitbag.sylius_przelewy24_plugin.creator.composite_one_time_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\CompositeTransactionCreator
+        calls:
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.one_time_transaction_session', '200']]
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.przelewy24.creator.one_time_transaction', '100']]
+
+    bitbag.sylius_przelewy24_plugin.creator.composite_subscription_transaction:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\CompositeTransactionCreator
+        calls:
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.subscription_transaction_session', '200']]
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.przelewy24.creator.subscription_transaction', '100']]

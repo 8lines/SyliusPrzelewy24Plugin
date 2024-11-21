@@ -1,0 +1,12 @@
+{% set form = hookable_metadata.context.form %}
+
+<div class="tab-pane" id="product-variant-recurring-przelewy24-product-variant" role="tabpanel" tabindex="0">
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 id="taxes" class="card-title">{{ 'bitbag.sylius_przelewy24_plugin.ui.recurring'|trans }}</h2>
+        </div>
+        <div class="card-body">
+            {{ form_row(form.recurringPrzelewy24ProductVariant) }}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+services:
+    bitbag.sylius_przelewy24_plugin.order_processing.order_compatibility:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\OrderProcessing\OrderCompatibilityGuarantor
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.guard.cart.composite_compatibility'
+            - '@bitbag.sylius_przelewy24_plugin.fixer.cart_compatibility'
+        tags:
+            - { name: sylius.order_processor, priority: 100 }
+
+    bitbag.sylius_przelewy24_plugin.order_processing.recurring_state_provider:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\OrderProcessing\OrderRecurringStateProvider
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.checker.has_order_recurring_products'
+            - '@bitbag.sylius_przelewy24_plugin.applicator.order_recurring_state'
+            - '@bitbag.sylius_przelewy24_plugin.applicator.order_not_recurring_state'
+        tags:
+            - { name: sylius.order_processor, priority: 0 }

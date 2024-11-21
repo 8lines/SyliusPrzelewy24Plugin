@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusPrzelewy24Plugin\Action;
 
-use BitBag\SyliusPrzelewy24Plugin\Action\ConvertPaymentAction;
+use BitBag\SyliusPrzelewy24Plugin\OneTime\Action\ConvertPaymentAction;
 use Doctrine\Common\Collections\ArrayCollection;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Request\Convert;

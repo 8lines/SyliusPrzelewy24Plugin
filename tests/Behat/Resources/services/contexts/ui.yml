@@ -1,16 +1,16 @@
 services:
-    bitbag_sylius_przelewy24_plugin.context.ui.admin.managing_payment_method_przelewy24:
+    bitbag.sylius_przelewy24_plugin.context.ui.admin.managing_payment_method_przelewy24:
         class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Context\Ui\Admin\ManagingPaymentMethodPrzelewy24Context
         public: true
         arguments:
             - "@sylius.behat.current_page_resolver"
-            - "@bitbag_sylius_przelewy24_plugin.page.admin.payment_method.create"
+            - "@bitbag.sylius_przelewy24_plugin.page.admin.payment_method.create"
 
-    bitbag_sylius_przelewy24_plugin.context.ui.shop.przelewy24_checkout:
+    bitbag.sylius_przelewy24_plugin.context.ui.shop.przelewy24_checkout:
         class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Context\Ui\Shop\Przelewy24CheckoutContext
         public: true
         arguments:
             - '@sylius.behat.page.shop.checkout.complete'
-            - '@bitbag_sylius_przelewy24_plugin.page.external.przelewy24_checkout'
+            - '@bitbag.sylius_przelewy24_plugin.page.external.przelewy24_checkout'
             - '@sylius.behat.page.shop.order.show'
-            - '@bitbag_sylius_przelewy24_plugin.mocker.przelewy24_api'
+            - '@bitbag.sylius_przelewy24_plugin.mocker.przelewy24_api'

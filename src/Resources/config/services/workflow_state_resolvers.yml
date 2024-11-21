@@ -1,0 +1,12 @@
+services:
+    bitbag.sylius_przelewy24_plugin.resolver.workflow_state.subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\WorkflowState\Subscription\SubscriptionStateResolver
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+
+    bitbag.sylius_przelewy24_plugin.resolver.workflow_state.subscription_interval:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\WorkflowState\SubscriptionInterval\SubscriptionIntervalStateResolver
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription_interval'

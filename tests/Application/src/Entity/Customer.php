@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\BitBag\SyliusPrzelewy24Plugin\Application\src\Entity;
+namespace Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity;
 
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\CustomerInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\CustomerTrait;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SyliusCustomerAsSubscriberInterface;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SyliusCustomerAsSubscriberTrait;
 use Sylius\Component\Core\Model\Customer as BaseCustomer;
 
-class Customer extends BaseCustomer implements CustomerInterface
+class Customer extends BaseCustomer implements SyliusCustomerAsSubscriberInterface
 {
-    use CustomerTrait {
+    use SyliusCustomerAsSubscriberTrait {
         __construct as private __customerConstruct;
     }
 

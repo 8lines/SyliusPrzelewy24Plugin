@@ -1,10 +1,10 @@
 services:
-    bitbag_sylius_przelewy24_plugin.page.external.przelewy24_checkout:
+    bitbag.sylius_przelewy24_plugin.page.external.przelewy24_checkout:
         class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Page\External\Przelewy24CheckoutPage
         parent: "sylius.behat.page"
         public: "false"
         arguments:
-            - "@bitbag_sylius_przelewy24_plugin.mocker.przelewy24_api"
+            - "@bitbag.sylius_przelewy24_plugin.mocker.przelewy24_api"
             - "@sylius.repository.payment_security_token"
             - "@sylius.repository.payment"
             - "@test.client"

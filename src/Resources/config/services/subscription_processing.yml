@@ -1,0 +1,33 @@
+services:
+    bitbag.sylius_przelewy24_plugin.subscription_processing.subscription_interval_completion_processor:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\SubscriptionProcessing\SubscriptionIntervalCompletionProcessor
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+
+    bitbag.sylius_przelewy24_plugin.subscription_processing.subscription_current_interval_payment_processor:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\SubscriptionProcessing\SubscriptionCurrentIntervalPaymentProcessor
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+            - '@bitbag.sylius_przelewy24_plugin.cloner.order'
+            - '@sylius.custom_factory.payment'
+            - '@bitbag.sylius_przelewy24_plugin.resolver.subscription_payment_method'
+            - '@sylius.factory.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.applicator.subscription_based_router_context'
+            - '@sylius.repository.order'
+            - '@sylius.repository.payment'
+            - '@sylius.repository.payment_request'
+            - '@sylius.announcer.payment_request'
+
+    bitbag.sylius_przelewy24_plugin.subscription_processing.composite_active_subscription_processor:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\SubscriptionProcessing\CompositeActiveSubscriptionProcessor
+        calls:
+            - [addProcessor, ['@bitbag.sylius_przelewy24_plugin.subscription_processing.subscription_interval_completion_processor', '200']]
+            - [addProcessor, ['@bitbag.sylius_przelewy24_plugin.subscription_processing.subscription_current_interval_payment_processor', '100']]
+
+    bitbag.sylius_przelewy24_plugin.subscription_processing.active_subscriptions_processor:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\SubscriptionProcessing\ActiveSubscriptionsProcessor
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+            - '@bitbag.sylius_przelewy24_plugin.subscription_processing.composite_active_subscription_processor'

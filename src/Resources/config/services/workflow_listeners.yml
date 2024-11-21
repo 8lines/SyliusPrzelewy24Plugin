@@ -1,0 +1,65 @@
+services:
+    bitbag.sylius_przelewy24_plugin.listener.workflow.payment.create_card_if_not_exists:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment\CreateCardIfNotExistsListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@bitbag.sylius_przelewy24_plugin.creator.card'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.sylius_payment.completed.complete
+              priority: 400
+
+    bitbag.sylius_przelewy24_plugin.listener.workflow.payment.register_new_subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment\RegisterNewSubscriptionListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.creator.subscription'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.sylius_payment.completed.complete
+              priority: 300
+
+    bitbag.sylius_przelewy24_plugin.listener.workflow.payment.increment_subscription_interval_failure_count:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment\IncrementSubscriptionIntervalFailureCountListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.counter.subscription_interval_failure'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.sylius_payment.completed.fail
+              priority: 200
+
+    bitbag.sylius_przelewy24_plugin.listener.workflow.payment.resolve_subscription_interval_state:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment\ResolveSubscriptionIntervalStateListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.resolver.workflow_state.subscription_interval'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.sylius_payment.completed.complete
+              priority: 100
+
+            - name: kernel.event_listener
+              event: workflow.sylius_payment.completed.fail
+              priority: 100
+
+    bitbag.sylius_przelewy24_plugin.listener.workflow.subscription_interval.reset_subscription_interval_fails_count:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\SubscriptionInterval\ResetSubscriptionIntervalFailsCountListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.counter.subscription_interval_failure'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.completed.activate
+              priority: 200
+
+    bitbag.sylius_przelewy24_plugin.listener.workflow.subscription_interval.resolve_subscription_state:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\SubscriptionInterval\ResolveSubscriptionStateListener
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.resolver.workflow_state.subscription'
+        tags:
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.completed.complete
+              priority: 100
+
+            - name: kernel.event_listener
+              event: workflow.bitbag_sylius_przelewy24_plugin_subscription_interval.completed.abort
+              priority: 100

@@ -4,13 +4,23 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Entity;
 
-use Sylius\Component\Core\Model\OrderInterface as BaseOrderInterface;
+use Sylius\Resource\Model\ResourceInterface;
 
-interface RecurringOrderInterface extends BaseOrderInterface
+interface RecurringOrderInterface extends ResourceInterface
 {
-    public function getPrzelewy24Order(): Przelewy24OrderInterface;
+    public function isRecurring(): bool;
 
-    public function setPrzelewy24Order(Przelewy24OrderInterface $przelewy24Order): void;
+    public function setRecurring(bool $recurring): void;
 
-    public function getPrzelewy24RecurringProduct(): ?Przelewy24ProductVariantInterface;
+    public function getRecurringSequenceIndex(): ?int;
+
+    public function setRecurringSequenceIndex(?int $recurringSequenceIndex): void;
+
+    public function getSubscription(): ?SubscriptionInterface;
+
+    public function setSubscription(SubscriptionInterface $subscription): void;
+
+    public function getSyliusOrder(): ?RecurringSyliusOrderInterface;
+
+    public function setSyliusOrder(RecurringSyliusOrderInterface $syliusOrder): void;
 }

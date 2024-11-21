@@ -1,0 +1,92 @@
+services:
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_one_time.capture:
+        class: BitBag\SyliusPrzelewy24Plugin\OneTime\CommandHandler\Payment\CapturePaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.creator.composite_one_time_transaction'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\OneTime\Command\Payment\CapturePaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_one_time.notify:
+        class: BitBag\SyliusPrzelewy24Plugin\OneTime\CommandHandler\Payment\NotifyPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\OneTime\Command\Payment\NotifyPaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_one_time.status:
+        class: BitBag\SyliusPrzelewy24Plugin\OneTime\CommandHandler\Payment\StatusPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\OneTime\Command\Payment\StatusPaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_one_time.sync:
+        class: BitBag\SyliusPrzelewy24Plugin\OneTime\CommandHandler\Payment\SyncPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.synchronizer.composite_przelewy24_one_time_transaction'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\OneTime\Command\Payment\SyncPaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_subscription.capture:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment\CapturePaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@sylius_abstraction.state_machine'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.creator.composite_subscription_transaction'
+            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.charger.card'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\CapturePaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_subscription.notify:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment\NotifyPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\NotifyPaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_subscription.status:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment\StatusPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\StatusPaymentRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.payment.przelewy24_subscription.sync:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment\SyncPaymentRequestHandler
+        arguments:
+            - '@sylius.provider.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
+            - '@bitbag.sylius_przelewy24_plugin.synchronizer.composite_przelewy24_subscription_transaction'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.payment_request.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\SyncPaymentRequest

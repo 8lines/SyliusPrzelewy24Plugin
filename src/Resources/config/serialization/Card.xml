@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
+>
+    <class name="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\Card">
+        <attribute name="id">
+            <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+        </attribute>
+
+        <attribute name="token">
+            <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+        </attribute>
+
+        <attribute name="mask">
+            <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+        </attribute>
+
+        <attribute name="date">
+            <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+        </attribute>
+    </class>
+</serializer>

@@ -1,17 +1,24 @@
 services:
-    bitbag_sylius_przelewy24_plugin.form.type.przelewy24_one_time_gateway_configuration:
+    bitbag.sylius_przelewy24_plugin.form.type.przelewy24_one_time_gateway_configuration:
         class: BitBag\SyliusPrzelewy24Plugin\OneTime\Form\Type\Przelewy24OneTimeGatewayConfigurationType
         tags:
-            - { name: sylius.gateway_configuration_type, type: przelewy24_one_time, label: bitbag_sylius_przelewy24_plugin.ui.one_time_gateway_label }
-            - { name: form.type }
+            - name: sylius.gateway_configuration_type
+              type: przelewy24_one_time
+              label: bitbag.sylius_przelewy24_plugin.ui.one_time_gateway_label
 
-    bitbag_sylius_przelewy24_plugin.form.type.przelewy24_subscription_gateway_configuration:
+            - name: form.type
+
+    bitbag.sylius_przelewy24_plugin.form.type.przelewy24_subscription_gateway_configuration:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Form\Type\Przelewy24SubscriptionGatewayConfigurationType
         tags:
-            - { name: sylius.gateway_configuration_type, type: przelewy24_subscription, label: bitbag_sylius_przelewy24_plugin.ui.subscription_gateway_label }
-            - { name: form.type }
+            - name: sylius.gateway_configuration_type
+              type: przelewy24_subscription
+              label: bitbag.sylius_przelewy24_plugin.ui.subscription_gateway_label
 
-    bitbag_sylius_przelewy24_plugin.form.extension.recurring_product_variant:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Form\Extension\RecurringProductVariantExtension
+            - name: form.type
+
+    bitbag.sylius_przelewy24_plugin.form.extension.recurring_przelewy24_product_variant:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Form\Extension\RecurringPrzelewy24ProductVariantExtension
         tags:
-            - { name: form.type_extension, extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType }
+            - name: form.type_extension
+              extended_type: Sylius\Bundle\ProductBundle\Form\Type\ProductVariantType

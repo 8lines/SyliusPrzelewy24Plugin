@@ -9,11 +9,11 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Order\Factory\OrderItemUnitFactoryInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class OrderItemCloner implements OrderItemClonerInterface
+final readonly class OrderItemCloner implements OrderItemClonerInterface
 {
     public function __construct(
-        private readonly FactoryInterface $orderItemFactory,
-        private readonly OrderItemUnitFactoryInterface $orderItemUnitFactory,
+        private FactoryInterface $orderItemFactory,
+        private OrderItemUnitFactoryInterface $orderItemUnitFactory,
     ) {
     }
 

@@ -2,7 +2,7 @@ imports:
     - { resource: "services/**/*.yml" }
 
 services:
-    bitbag_sylius_przelewy24_plugin.mocker.przelewy24_api:
+    bitbag.sylius_przelewy24_plugin.mocker.przelewy24_api:
         class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Service\Mocker\Przelewy24ApiMocker
         public: true
         arguments:

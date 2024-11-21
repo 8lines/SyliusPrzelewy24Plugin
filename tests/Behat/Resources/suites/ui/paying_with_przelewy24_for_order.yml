@@ -29,7 +29,7 @@ default:
                 - sylius.behat.context.setup.taxation
                 - sylius.behat.context.setup.user
 
-                - bitbag_sylius_przelewy24_plugin.context.setup.przelewy24
+                - bitbag.sylius_przelewy24_plugin.context.setup.przelewy24
 
                 - sylius.behat.context.ui.paypal
                 - sylius.behat.context.ui.shop.cart
@@ -41,6 +41,6 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.checkout.thank_you
 
-                - bitbag_sylius_przelewy24_plugin.context.ui.shop.przelewy24_checkout
+                - bitbag.sylius_przelewy24_plugin.context.ui.shop.przelewy24_checkout
             filters:
                 tags: "@paying_with_przelewy24_for_order && @ui"

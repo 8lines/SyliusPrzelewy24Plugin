@@ -7,10 +7,10 @@ namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 
-final class AdjustmentCloner implements AdjustmentClonerInterface
+final readonly class AdjustmentCloner implements AdjustmentClonerInterface
 {
     public function __construct(
-        private readonly FactoryInterface $adjustmentFactory,
+        private FactoryInterface $adjustmentFactory,
     ) {
     }
 

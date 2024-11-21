@@ -1,0 +1,39 @@
+framework:
+    workflows:
+        !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::GRAPH:
+            type: state_machine
+            marking_store:
+                type: method
+                property: state
+            supports:
+                - BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface
+            initial_marking: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_SCHEDULED
+            places:
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_SCHEDULED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_FULFILLED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_COMPLETED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_ABORTED
+            transitions:
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::TRANSITION_SCHEDULE:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_ABORTED
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_SCHEDULED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::TRANSITION_AWAIT_PAYMENT:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_SCHEDULED
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::TRANSITION_ACTIVATE:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_FULFILLED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::TRANSITION_COMPLETE:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_FULFILLED
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_COMPLETED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionIntervalTransitions::TRANSITION_ABORT:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_SCHEDULED
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_FULFILLED
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionIntervalInterface::STATE_ABORTED

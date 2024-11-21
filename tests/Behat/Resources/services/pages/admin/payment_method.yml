@@ -1,5 +1,5 @@
 services:
-    bitbag_sylius_przelewy24_plugin.page.admin.payment_method.create:
+    bitbag.sylius_przelewy24_plugin.page.admin.payment_method.create:
          class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Page\Admin\PaymentMethod\CreatePage
          parent: "sylius.behat.page.admin.crud.create"
          public: false

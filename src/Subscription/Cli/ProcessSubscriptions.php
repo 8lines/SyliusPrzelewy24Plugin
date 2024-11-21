@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Cli;
 
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionAwaitingPaymentsProcessorInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\Przelewy24SubscriptionScheduleIntervalCompletionProcessorInterface;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\SubscriptionProcessing\ActiveSubscriptionsProcessorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,8 +19,7 @@ final class ProcessSubscriptions extends Command
     private SymfonyStyle $io;
 
     public function __construct(
-        private readonly Przelewy24SubscriptionScheduleIntervalCompletionProcessorInterface $przelewy24SubscriptionScheduleIntervalCompletionProcessor,
-        private readonly Przelewy24SubscriptionAwaitingPaymentsProcessorInterface $przelewy24SubscriptionAwaitingPaymentsProcessor,
+        private readonly ActiveSubscriptionsProcessorInterface $activeSubscriptionsProcessor,
     ) {
         parent::__construct(self::COMMAND_NAME);
     }
@@ -44,11 +42,9 @@ final class ProcessSubscriptions extends Command
         $this->io->title('Przelewy24 - subscription processing');
 
         try {
-            $this->io->writeln('Processing subscription intervals completion...');
-            $this->przelewy24SubscriptionScheduleIntervalCompletionProcessor->process();
+            $this->io->writeln('Processing active subscriptions...');
 
-            $this->io->writeln('Processing recurring payments...');
-            $this->przelewy24SubscriptionAwaitingPaymentsProcessor->process();
+            $this->activeSubscriptionsProcessor->processActiveSubscriptions();
 
             $this->io->success('Subscriptions processed successfully!');
 

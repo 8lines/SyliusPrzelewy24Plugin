@@ -27,7 +27,7 @@ final class Przelewy24Bridge implements Przelewy24BridgeInterface
         string $crcKey,
         string $environment = self::SANDBOX_ENVIRONMENT
     ): void {
-        $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->setAuthorizationData(
+        $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->setAuthorizationData(
             $merchantId,
             $crcKey,
             $environment
@@ -36,41 +36,41 @@ final class Przelewy24Bridge implements Przelewy24BridgeInterface
 
     public function getTrnRegisterUrl(): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->getTrnRegisterUrl();
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->getTrnRegisterUrl();
     }
 
     public function getTrnRequestUrl(string $token): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->getTrnRequestUrl($token);
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->getTrnRequestUrl($token);
     }
 
     public function getTrnVerifyUrl(): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->getTrnVerifyUrl();
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->getTrnVerifyUrl();
     }
 
     public function getHostForEnvironment(): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->getHostForEnvironment();
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->getHostForEnvironment();
     }
 
     public function createSign(array $parameters): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->createSign($parameters);
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->createSign($parameters);
     }
 
     public function trnRegister(array $posData): string
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->trnRegister($posData);
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->trnRegister($posData);
     }
 
     public function trnVerify(array $posData): bool
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->trnVerify($posData);
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->trnVerify($posData);
     }
 
     public function request(array $posData, string $url): array
     {
-        return $this->container->get('bitbag_sylius_przelewy24_plugin.bridge.przelewy24')->request($posData, $url);
+        return $this->container->get('bitbag.sylius_przelewy24_plugin.bridge.przelewy24')->request($posData, $url);
     }
 }

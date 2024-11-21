@@ -4,9 +4,3 @@ imports:
 
 services:
     Symfony\Component\BrowserKit\AbstractBrowser: '@test.client'
-
-    bitbag_sylius_przelewy24_plugin.bridge.przelewy24:
-        class: Tests\BitBag\SyliusPrzelewy24Plugin\Behat\Service\Mocker\Przelewy24Bridge
-        public: true
-        arguments:
-            - "@service_container"

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources
+        xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
+>
+    <resource class="%bitbag_sylius_przelewy24_plugin.model.subscriber.class%" shortName="Przelewy24Subscriber">
+        <operations>
+            <operation
+                    name="bitbag_sylius_przelewy24_plugin_shop_subscriber_get"
+                    class="ApiPlatform\Metadata\Get"
+                    uriTemplate="/shop/przelewy24/subscribers/{id}"
+                    security="is_granted('show', object)"
+            >
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+        </operations>
+    </resource>
+</resources>
