@@ -3,6 +3,7 @@ services:
         class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentRequestProcessor
         arguments:
             - '@sylius_abstraction.state_machine'
+            - '@logger'
 
     bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification:
         class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessor

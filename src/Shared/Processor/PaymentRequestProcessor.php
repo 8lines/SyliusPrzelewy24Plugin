@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Processor;
 
+use Psr\Log\LoggerInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\PaymentRequestTransitions;
@@ -13,6 +14,7 @@ final readonly class PaymentRequestProcessor implements PaymentRequestProcessorI
 {
     public function __construct(
         private StateMachineInterface $stateMachine,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -29,8 +31,14 @@ final readonly class PaymentRequestProcessor implements PaymentRequestProcessorI
         try {
             $action($paymentRequest);
 
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
             $this->processException($paymentRequest);
+
+            $this->logger->error(
+                message: 'Payment request processing failed.',
+                context: ['exception' => $exception],
+            );
+
             return;
         }
 
