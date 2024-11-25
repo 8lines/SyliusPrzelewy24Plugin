@@ -31,46 +31,7 @@ final readonly class CartCompatibilityFixer implements CartCompatibilityFixerInt
             return;
         }
 
-        /** @var RecurringSyliusProductVariantInterface|null $productVariant */
-        $productVariant = $orderItem->getVariant();
-
-        if (null === $productVariant) {
-            $order->removeItem($orderItem);
-
-            $this->repeat($order);
-            return;
-        }
-
-        if (false === $productVariant->getRecurringPrzelewy24ProductVariant()->isRecurring()) {
-            $order->removeItem($orderItem);
-
-            $this->repeat($order);
-            return;
-        }
-
-        if ($orderItem->getQuantity() > 1) {
-            /** @var OrderItemUnitInterface|null $firstUnit */
-            $firstUnit = $orderItem->getUnits()->first();
-
-            if (null === $firstUnit) {
-                $order->removeItem($orderItem);
-
-                $this->repeat($order);
-                return;
-            }
-
-            foreach ($orderItem->getUnits() as $unit) {
-                $orderItem->removeUnit($unit);
-            }
-
-            $orderItem->addUnit($firstUnit);
-
-            $this->repeat($order);
-            return;
-        }
-
         $order->removeItem($orderItem);
-
         $this->repeat($order);
     }
 

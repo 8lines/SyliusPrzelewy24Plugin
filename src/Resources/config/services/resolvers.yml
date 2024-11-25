@@ -26,7 +26,6 @@ services:
     bitbag.sylius_przelewy24_plugin.resolver.payment.after_url:
         class: BitBag\SyliusPrzelewy24Plugin\Shared\Resolver\PaymentAfterUrlResolver
         arguments:
-            - '@bitbag.sylius_przelewy24_plugin.provider.payment_http_request'
             - '@router'
 
     bitbag.sylius_przelewy24_plugin.resolver.payment.notify_url:

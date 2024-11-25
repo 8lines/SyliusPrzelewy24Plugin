@@ -31,10 +31,6 @@ final readonly class OnlyOneRecurringProductGuard implements CartCompatibilityGu
                 return false;
             }
 
-            if ($order->getItemUnitsByVariant($productVariant)->count() > 1) {
-                return false;
-            }
-
             $hasRecurringProduct = true;
         }
 
