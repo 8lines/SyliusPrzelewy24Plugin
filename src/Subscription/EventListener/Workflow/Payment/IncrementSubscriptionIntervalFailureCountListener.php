@@ -39,10 +39,9 @@ final readonly class IncrementSubscriptionIntervalFailureCountListener
         /** @var SubscriptionInterface $subscription */
         $subscription = $order->getRecurringPrzelewy24Order()->getSubscription();
 
-        Assert::notNull(
-            value: $subscription,
-            message: 'Subscription cannot be null when incrementing failure count.'
-        );
+        if (null === $subscription) {
+            return;
+        }
 
         $sequence = $order->getRecurringPrzelewy24Order()->getRecurringSequenceIndex();
 
