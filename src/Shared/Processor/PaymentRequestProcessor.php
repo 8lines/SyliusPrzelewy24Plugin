@@ -32,12 +32,12 @@ final readonly class PaymentRequestProcessor implements PaymentRequestProcessorI
             $action($paymentRequest);
 
         } catch (\Exception $exception) {
-            $this->processException($paymentRequest);
-
             $this->logger->error(
                 message: 'Payment request processing failed.',
                 context: ['exception' => $exception],
             );
+
+            $this->processException($paymentRequest);
 
             return;
         }
