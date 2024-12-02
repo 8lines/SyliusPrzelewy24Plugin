@@ -34,10 +34,9 @@ final readonly class ResolveSubscriptionStateListener
         /** @var SubscriptionInterface $subscription */
         $subscription = $schedule->getSubscription();
 
-        Assert::notNull(
-            value: $subscription,
-            message: 'Subscription cannot be null when resolving its state.'
-        );
+        if (null === $subscription) {
+            return;
+        }
 
         $this->subscriptionIntervalStateResolver->resolve($subscription);
     }
