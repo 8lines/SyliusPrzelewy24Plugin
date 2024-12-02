@@ -36,7 +36,7 @@ final readonly class ResolveSubscriptionStateListener
 
         Assert::notNull(
             value: $subscription,
-            message: 'Subscription cannot be null.'
+            message: 'Subscription cannot be null when resolving its state.'
         );
 
         $this->subscriptionIntervalStateResolver->resolve($subscription);

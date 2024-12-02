@@ -41,7 +41,7 @@ final readonly class ResolveSubscriptionIntervalStateListener
 
         Assert::notNull(
             value: $subscription,
-            message: 'Subscription cannot be null.'
+            message: 'Subscription cannot be nul when resolving subscription interval state.'
         );
 
         $sequence = $order->getRecurringPrzelewy24Order()->getRecurringSequenceIndex();
