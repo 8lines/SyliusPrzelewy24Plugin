@@ -139,7 +139,7 @@ trait Przelewy24TransactionCreatorTrait
                 name: $item->getProduct()->getName(),
                 description: $item->getProduct()->getDescription(),
                 quantity: $item->getQuantity(),
-                price: $item->getUnitPrice(),
+                price: $item->getDiscountedUnitPrice(),
                 number: (string) $item->getProduct()->getId(),
             ),
         );
