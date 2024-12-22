@@ -56,7 +56,7 @@ final readonly class Przelewy24ClientFactory implements Przelewy24ClientFactoryI
             merchantId: $merchantId,
             reportsKey: $reportsKey,
             crc: $crcKey,
-            environment: $environment,
+            environment: $environment instanceof Environment ? $environment : Environment::tryFrom($environment),
         );
     }
 }
