@@ -10,8 +10,8 @@ interface CardCreatorInterface
 {
     public function createForCustomerIfNotExists(
         SyliusCustomerAsSubscriberInterface $customer,
-        string                              $refId,
-        string                              $mask,
-        string                              $date,
+        string $refId,
+        string $mask,
+        string $date,
     ): void;
 }

@@ -6,7 +6,6 @@ namespace BitBag\SyliusPrzelewy24Plugin\Shared\Checker;
 
 use BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\TransactionSynchronizerInterface;
 use Laminas\Stdlib\PriorityQueue;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class CompositeTransactionNotificationValidityChecker implements TransactionNotificationValidityCheckerInterface
 {
@@ -31,15 +30,15 @@ final readonly class CompositeTransactionNotificationValidityChecker implements 
         );
     }
 
-    public function isValid(PaymentRequestInterface $paymentRequest): bool
+    public function isValid(ValidableNotificationRequestInterface $request): bool
     {
         $this->compositeTransactionSynchronizer->synchronize(
-            paymentRequest: $paymentRequest,
+            request: $request,
         );
 
         /** @var TransactionNotificationValidityCheckerInterface $notificationValidityChecker */
         foreach ($this->notificationValidityCheckers as $notificationValidityChecker) {
-            if (false === $notificationValidityChecker->isValid($paymentRequest)) {
+            if (false === $notificationValidityChecker->isValid($request)) {
                 return false;
             }
         }

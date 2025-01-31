@@ -51,7 +51,6 @@ services:
             - '@sylius_abstraction.state_machine'
             - '@bitbag.sylius_przelewy24_plugin.processor.payment_request'
             - '@bitbag.sylius_przelewy24_plugin.creator.composite_subscription_transaction'
-            - '@bitbag.sylius_przelewy24_plugin.provider.payment_payload'
             - '@bitbag.sylius_przelewy24_plugin.przelewy24.charger.card'
         tags:
             -   name: messenger.message_handler

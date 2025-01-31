@@ -1,0 +1,29 @@
+services:
+    bitbag.sylius_przelewy24_plugin.controller.add_card_request:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Controller\ProcessAddCardRequestController
+        arguments:
+            - '@sylius_api.context.user.token_based'
+            - '@sylius.normalizer.symfony_request'
+            - '@bitbag.sylius_przelewy24_plugin.resolver.subscription_payment_method'
+            - '@bitbag.sylius_przelewy24_plugin.custom_factory.add_card_request'
+            - '@bitbag_sylius_przelewy24_plugin.repository.add_card_request'
+            - '@sylius.command_bus'
+
+    bitbag.sylius_przelewy24_plugin.controller.handle_add_card_notification:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Controller\HandleAddCardNotificationController
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.add_card_request'
+            - '@sylius.normalizer.symfony_request'
+            - '@sylius.command_bus'
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    bitbag.sylius_przelewy24_plugin.controller.change_subscription_card:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Controller\ChangeSubscriptionCardController
+        arguments:
+            - '@sylius_api.context.user.token_based'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+            - '@bitbag_sylius_przelewy24_plugin.repository.card'

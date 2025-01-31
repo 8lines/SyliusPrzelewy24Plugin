@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer;
 
 use Laminas\Stdlib\PriorityQueue;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class CompositeTransactionSynchronizer implements TransactionSynchronizerInterface
 {
@@ -29,11 +28,11 @@ final readonly class CompositeTransactionSynchronizer implements TransactionSync
         );
     }
 
-    public function synchronize(PaymentRequestInterface $paymentRequest): void
+    public function synchronize(SynchronizableRequestInterface $request): void
     {
         /** @var TransactionSynchronizerInterface $transactionSynchronizer */
         foreach ($this->transactionSynchronizers as $transactionSynchronizer) {
-            $transactionSynchronizer->synchronize($paymentRequest);
+            $transactionSynchronizer->synchronize($request);
         }
     }
 }

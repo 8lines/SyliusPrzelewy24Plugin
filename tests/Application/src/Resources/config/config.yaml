@@ -15,3 +15,9 @@ sylius_customer:
         customer:
             classes:
                 model: Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\Customer
+
+sylius_payment:
+    resources:
+        payment_request:
+            classes:
+                model: Tests\BitBag\SyliusPrzelewy24Plugin\App\Entity\PaymentRequest

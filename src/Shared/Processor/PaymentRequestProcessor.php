@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Processor;
 
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
@@ -19,17 +20,17 @@ final readonly class PaymentRequestProcessor implements PaymentRequestProcessorI
     }
 
     public function process(
-        PaymentRequestInterface $paymentRequest,
+        TransactionalPaymentRequestInterface $request,
         callable $action,
     ): void {
         $this->stateMachine->apply(
-            subject: $paymentRequest,
+            subject: $request,
             graphName: PaymentRequestTransitions::GRAPH,
             transition: PaymentRequestTransitions::TRANSITION_PROCESS,
         );
 
         try {
-            $action($paymentRequest);
+            $action($request);
 
         } catch (\Exception $exception) {
             $this->logger->error(
@@ -37,30 +38,29 @@ final readonly class PaymentRequestProcessor implements PaymentRequestProcessorI
                 context: ['exception' => $exception],
             );
 
-            $this->processException($paymentRequest);
-
+            $this->processException($request);
             return;
         }
 
         $this->stateMachine->apply(
-            subject: $paymentRequest,
+            subject: $request,
             graphName: PaymentRequestTransitions::GRAPH,
             transition: PaymentRequestTransitions::TRANSITION_COMPLETE,
         );
     }
 
-    private function processException(PaymentRequestInterface $paymentRequest): void
+    private function processException(TransactionalPaymentRequestInterface $request): void
     {
-        if (PaymentRequestInterface::ACTION_CAPTURE === $paymentRequest->getAction()) {
+        if (PaymentRequestInterface::ACTION_CAPTURE === $request->getAction()) {
             $this->stateMachine->apply(
-                subject: $paymentRequest->getPayment(),
+                subject: $request->getPayment(),
                 graphName: PaymentTransitions::GRAPH,
                 transition: PaymentTransitions::TRANSITION_FAIL,
             );
         }
 
         $this->stateMachine->apply(
-            subject: $paymentRequest,
+            subject: $request,
             graphName: PaymentRequestTransitions::GRAPH,
             transition: PaymentRequestTransitions::TRANSITION_FAIL,
         );

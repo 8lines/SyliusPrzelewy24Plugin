@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Resolver;
 
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final readonly class PaymentAfterUrlResolver implements PaymentAfterUrlResolverInterface
+final readonly class PaymentAfterUrlResolver implements TransactionAfterUrlResolverInterface
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    public function resolve(PaymentRequestInterface $paymentRequest): string
+    public function resolve(AfterUrlResolvableTransactionRequestInterface $request): string
     {
-        $redirectUrl = $paymentRequest->getPayload()['redirectUrl'] ?? null;
+        $redirectUrl = $request->getTransactionParameters()['redirectUrl'] ?? null;
 
         if (null !== $redirectUrl) {
             return $redirectUrl;

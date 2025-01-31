@@ -8,21 +8,25 @@
         <attribute name="id">
             <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
             <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
 
         <attribute name="token">
             <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
             <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
 
         <attribute name="mask">
             <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
             <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
 
         <attribute name="date">
             <group>bitbag_sylius_przelewy24_plugin:shop:card:show</group>
             <group>bitbag_sylius_przelewy24_plugin:shop:subscriber:show</group>
+            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
     </class>
 </serializer>

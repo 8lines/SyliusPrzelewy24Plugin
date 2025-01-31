@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\OrderPay\Provider;
 
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Payload\PaymentPayload;
 use Sylius\Bundle\PaymentBundle\Provider\HttpResponseProviderInterface;
 use Sylius\Bundle\ResourceBundle\Controller\RequestConfiguration;
 use Sylius\Component\Payment\Model\PaymentRequestInterface;
@@ -14,11 +15,6 @@ use Webmozart\Assert\Assert;
 
 final readonly class CaptureHttpResponseProvider implements HttpResponseProviderInterface
 {
-    public function __construct(
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
-    ) {
-    }
-
     public function supports(
         RequestConfiguration $requestConfiguration,
         PaymentRequestInterface $paymentRequest,
@@ -30,9 +26,16 @@ final readonly class CaptureHttpResponseProvider implements HttpResponseProvider
         RequestConfiguration $requestConfiguration,
         PaymentRequestInterface $paymentRequest,
     ): Response {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
+        /** @var TransactionalPaymentRequestInterface $paymentRequest */
+
+        Assert::isInstanceOf(
+            value: $paymentRequest,
+            class: TransactionalPaymentRequestInterface::class,
+            message: 'Payment request must be an instance of %2$s, but it is %s.',
         );
+
+        /** @var PaymentPayload $payload */
+        $payload = $paymentRequest->getTransactionPayload();
 
         $payload->validateNotNull([
             'initializingSubscription',

@@ -4,47 +4,38 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Card\Synchronizer;
 
-use BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadAssignerInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentApiClientProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\SynchronizableRequestInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\TransactionSynchronizerInterface;
 use Przelewy24\Przelewy24;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class Przelewy24CardSynchronizer implements TransactionSynchronizerInterface
 {
+    /**
+     * @param PaymentApiClientProviderInterface<Przelewy24> $paymentApiClientProvider
+     */
     public function __construct(
         private PaymentApiClientProviderInterface $paymentApiClientProvider,
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
-        private PaymentPayloadAssignerInterface $paymentPayloadAssigner,
     ) {
     }
 
-    public function synchronize(PaymentRequestInterface $paymentRequest): void
+    public function synchronize(SynchronizableRequestInterface $request): void
     {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
-
+        $payload = $request->getTransactionPayload();
         $payload->validateNotNull(['orderId']);
 
-        /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentRequest(
-            paymentRequest:  $paymentRequest,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $request->getPaymentMethod(),
         );
 
         $card = $przelewy24->cards()->info(
             orderId: $payload->orderId(),
         );
 
-
-        $payload->withcardRefId(
+        $payload->withCardRefId(
             cardRefId: $card->refId(),
         );
 
-        $this->paymentPayloadAssigner->assign(
-            paymentRequest: $paymentRequest,
-            payload: $payload,
-        );
+        $request->setTransactionPayload($payload);
     }
 }

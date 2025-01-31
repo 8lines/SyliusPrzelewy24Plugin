@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequest" table="bitbag_przelewy24_add_card_request">
+        <id name="hash" column="hash" type="uuid">
+            <generator strategy="CUSTOM" />
+            <custom-id-generator class="doctrine.uuid_generator" />
+        </id>
+
+        <many-to-one field="customer" target-entity="Sylius\Component\Core\Model\CustomerInterface">
+            <join-column name="customer_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+
+        <many-to-one field="paymentMethod" target-entity="Sylius\Component\Core\Model\PaymentMethodInterface">
+            <join-column name="payment_method_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+
+        <field name="action" column="action" type="string" />
+        <field name="state" column="state" type="string" />
+        <field name="parameters" column="parameters" type="object" />
+        <field name="payload" column="payload" type="object" />
+        <field name="response" column="response" type="object" />
+    </mapped-superclass>
+</doctrine-mapping>

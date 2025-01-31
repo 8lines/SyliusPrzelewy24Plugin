@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Checker;
 
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 
 interface IsPaymentOrderRecurringCheckerInterface
 {
-    public function isRecurring(PaymentRequestInterface $paymentRequest): bool;
+    public function isRecurring(TransactionalPaymentRequestInterface $request): bool;
 }

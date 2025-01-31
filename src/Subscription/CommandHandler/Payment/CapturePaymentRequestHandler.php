@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment;
 
 use BitBag\SyliusPrzelewy24Plugin\Shared\Charger\CardChargerInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentRequestProcessorInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\CapturePaymentRequest;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Creator\TransactionCreatorInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Payload\PaymentPayload;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentRequestProcessorInterface;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\CapturePaymentRequest;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProviderInterface;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 
 final readonly class CapturePaymentRequestHandler
@@ -21,13 +21,13 @@ final readonly class CapturePaymentRequestHandler
         private StateMachineInterface $stateMachine,
         private PaymentRequestProcessorInterface $paymentRequestProcessor,
         private TransactionCreatorInterface $compositeTransactionCreator,
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
         private CardChargerInterface $cardCharger,
     ) {
     }
 
     public function __invoke(CapturePaymentRequest $capturePaymentRequest): void
     {
+        /** @var TransactionalPaymentRequestInterface $paymentRequest */
         $paymentRequest = $this->paymentRequestProvider->provide(
             command: $capturePaymentRequest,
         );
@@ -39,32 +39,31 @@ final readonly class CapturePaymentRequestHandler
         );
 
         $this->paymentRequestProcessor->process(
-            paymentRequest: $paymentRequest,
-            action: fn(PaymentRequestInterface $paymentRequest) => $this->process($paymentRequest),
+            request: $paymentRequest,
+            action: fn (TransactionalPaymentRequestInterface $request) => $this->process($request),
         );
     }
 
-    private function process(PaymentRequestInterface $paymentRequest): void
+    private function process(TransactionalPaymentRequestInterface $request): void
     {
         $this->compositeTransactionCreator->create(
-            paymentRequest: $paymentRequest,
+            request: $request,
         );
 
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
+        /** @var PaymentPayload $payload */
+        $payload = $request->getTransactionPayload();
 
         if (false === $payload->initializingSubscription() && false === $payload->payWithExistingCard()) {
             throw new \InvalidArgumentException('Not initial recurring transaction must be paid with existing card');
         }
 
         if (false === $payload->initializingSubscription() && true === $payload->payWithExistingCard()) {
-            $this->cardCharger->charge($paymentRequest);
+            $this->cardCharger->charge($request);
         }
 
         if (true === $payload->initializingSubscription() && true === $payload->payWithExistingCard()) {
-            $this->cardCharger->charge($paymentRequest);
-            $paymentRequest->setResponseData([]);
+            $this->cardCharger->charge($request);
+            $request->setResponseData([]);
         }
     }
 }

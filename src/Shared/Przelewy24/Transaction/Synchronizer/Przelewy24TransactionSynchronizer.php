@@ -4,33 +4,28 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Synchronizer;
 
-use BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadAssignerInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentApiClientProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\SynchronizableRequestInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Synchronizer\TransactionSynchronizerInterface;
 use Przelewy24\Przelewy24;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class Przelewy24TransactionSynchronizer implements TransactionSynchronizerInterface
 {
+    /**
+     * @param PaymentApiClientProviderInterface<Przelewy24> $paymentApiClientProvider
+     */
     public function __construct(
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
         private PaymentApiClientProviderInterface $paymentApiClientProvider,
-        private PaymentPayloadAssignerInterface $paymentPayloadAssigner,
     ) {
     }
 
-    public function synchronize(PaymentRequestInterface $paymentRequest): void
+    public function synchronize(SynchronizableRequestInterface $request): void
     {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
-
+        $payload = $request->getTransactionPayload();
         $payload->validateNotNull(['sessionId']);
 
-        /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentRequest(
-            paymentRequest:  $paymentRequest,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $request->getPaymentMethod(),
         );
 
         $transaction = $przelewy24->transactions()->find(
@@ -43,9 +38,6 @@ final readonly class Przelewy24TransactionSynchronizer implements TransactionSyn
         $payload->withStatement(\lcfirst($transaction->statement()));
         $payload->withMethodId($transaction->paymentMethod());
 
-        $this->paymentPayloadAssigner->assign(
-            paymentRequest: $paymentRequest,
-            payload: $payload,
-        );
+        $request->setTransactionPayload($payload);
     }
 }

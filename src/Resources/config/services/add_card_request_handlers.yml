@@ -1,0 +1,22 @@
+services:
+    bitbag.sylius_przelewy24_plugin.command_handler.subscription.process_add_card_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Subscription\ProcessAddCardRequestHandler
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.add_card_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.add_card_request'
+            - '@bitbag.sylius_przelewy24_plugin.creator.composite_add_card_transaction'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Subscription\ProcessAddCardRequest
+
+    bitbag.sylius_przelewy24_plugin.command_handler.subscription.handle_add_card_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Subscription\HandleAddCardNotificationHandler
+        arguments:
+            - '@bitbag_sylius_przelewy24_plugin.repository.add_card_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.add_card_request'
+            - '@bitbag.sylius_przelewy24_plugin.processor.add_card_notification'
+        tags:
+            -   name: messenger.message_handler
+                bus: sylius.command_bus
+                handles: BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Subscription\HandleAddCardNotification

@@ -4,30 +4,31 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\CommandHandler\Payment;
 
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentRequestProcessorInterface;
-use BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\NotifyPaymentRequest;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessorInterface;
+use BitBag\SyliusPrzelewy24Plugin\Subscription\Command\Payment\NotifyPaymentRequest;
 use Sylius\Bundle\PaymentBundle\Provider\PaymentRequestProviderInterface;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class NotifyPaymentRequestHandler
 {
     public function __construct(
         private PaymentRequestProviderInterface $paymentRequestProvider,
         private PaymentRequestProcessorInterface $paymentRequestProcessor,
-        private TransactionNotificationProcessorInterface $transactionNotificationProcessor,
+        private TransactionNotificationProcessorInterface $compositeTransactionNotificationProcessor,
     ) {
     }
 
     public function __invoke(NotifyPaymentRequest $notifyPaymentRequest): void
     {
+        /** @var TransactionalPaymentRequestInterface $paymentRequest */
         $paymentRequest = $this->paymentRequestProvider->provide(
             command: $notifyPaymentRequest,
         );
 
         $this->paymentRequestProcessor->process(
-            paymentRequest: $paymentRequest,
-            action: fn(PaymentRequestInterface $paymentRequest) => $this->transactionNotificationProcessor->process($paymentRequest),
+            request: $paymentRequest,
+            action: fn (TransactionalPaymentRequestInterface $request) => $this->compositeTransactionNotificationProcessor->process($request),
         );
     }
 }

@@ -12,3 +12,10 @@ services:
             - '@security.helper'
         tags:
             - name: security.voter
+
+    bitbag.sylius_przelewy24_plugin.voter.subscription:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Voter\SubscriptionVoter
+        arguments:
+            - '@security.helper'
+        tags:
+            - name: security.voter

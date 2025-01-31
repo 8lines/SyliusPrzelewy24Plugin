@@ -1,0 +1,8 @@
+sylius_resource:
+    resources:
+        bitbag_sylius_przelewy24_plugin.add_card_request:
+            driver: doctrine/orm
+            classes:
+                model: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequest
+                interface: BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface
+                repository: BitBag\SyliusPrzelewy24Plugin\Subscription\Repository\AddCardRequestRepository

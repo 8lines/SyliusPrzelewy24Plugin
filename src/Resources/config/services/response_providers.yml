@@ -18,5 +18,3 @@ services:
         tags:
             - name: sylius.payment_request.provider.http_response
               gateway-factory: 'przelewy24_subscription'
-
-
