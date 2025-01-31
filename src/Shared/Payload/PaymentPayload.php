@@ -7,7 +7,7 @@ namespace BitBag\SyliusPrzelewy24Plugin\Shared\Payload;
 use Przelewy24\Enums\Currency;
 use Webmozart\Assert\Assert;
 
-final class PaymentPayload
+final class PaymentPayload implements TransactionPayloadInterface
 {
     private function __construct(
         private ?string $sessionId = null,
@@ -158,7 +158,7 @@ final class PaymentPayload
         return $this->cardRefId;
     }
 
-    public function withcardRefId(string $cardRefId): void
+    public function withCardRefId(string $cardRefId): void
     {
         $this->cardRefId = $cardRefId;
     }

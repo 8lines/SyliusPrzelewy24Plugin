@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\StateResolver;
 
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 
 interface PaymentStateResolverInterface
 {
-    public function resolve(PaymentRequestInterface $paymentRequest): void;
+    public function resolve(TransactionalPaymentRequestInterface $request): void;
 }

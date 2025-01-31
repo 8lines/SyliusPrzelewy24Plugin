@@ -5,34 +5,30 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Notification\Checker;
 
 use BitBag\SyliusPrzelewy24Plugin\Shared\Checker\TransactionNotificationValidityCheckerInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Checker\ValidableNotificationRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Denormalizer\SymfonyRequestDenormalizerInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentApiClientProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentHttpRequestProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
 use Przelewy24\Przelewy24;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Webmozart\Assert\Assert;
 
 final readonly class Przelewy24TransactionNotificationSessionIdValidityChecker implements TransactionNotificationValidityCheckerInterface
 {
+    /**
+     * @param PaymentApiClientProviderInterface<Przelewy24> $paymentApiClientProvider
+     */
     public function __construct(
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
-        private PaymentHttpRequestProviderInterface $paymentHttpRequestProvider,
+        private SymfonyRequestDenormalizerInterface $symfonyRequestDenormalizer,
         private PaymentApiClientProviderInterface $paymentApiClientProvider,
     ) {
     }
 
-    public function isValid(PaymentRequestInterface $paymentRequest): bool
+    public function isValid(ValidableNotificationRequestInterface $request): bool
     {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
-
+        $payload = $request->getTransactionPayload();
         $payload->validateNotNull(['sessionId']);
 
-        /** @var Request $httpRequest */
-        $httpRequest = $this->paymentHttpRequestProvider->provide(
-            paymentRequest: $paymentRequest,
+        $httpRequest = $this->symfonyRequestDenormalizer->denormalize(
+            httpRequest: $request->getNormalizedHttpRequest(),
         );
 
         Assert::notNull(
@@ -40,9 +36,8 @@ final readonly class Przelewy24TransactionNotificationSessionIdValidityChecker i
             message: 'Http request cannot be null',
         );
 
-        /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $request->getPaymentMethod(),
         );
 
         $notification = $przelewy24->handleWebhook(

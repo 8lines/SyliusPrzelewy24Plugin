@@ -36,4 +36,8 @@ services:
         arguments:
             - '@bitbag.sylius_przelewy24_plugin.custom_factory.subscription_interval.inner'
 
-
+    bitbag.sylius_przelewy24_plugin.custom_factory.add_card_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Factory\AddCardRequestFactory
+        decorates: bitbag_sylius_przelewy24_plugin.factory.add_card_request
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.custom_factory.add_card_request.inner'

@@ -5,25 +5,23 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Verifier;
 
 use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentApiClientProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Verifier\TransactionVerifierInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Verifier\VerifiableRequestInterface;
 use Przelewy24\Przelewy24;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class Przelewy24TransactionVerifier implements TransactionVerifierInterface
 {
+    /**
+     * @param PaymentApiClientProviderInterface<Przelewy24> $paymentApiClientProvider
+     */
     public function __construct(
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
         private PaymentApiClientProviderInterface $paymentApiClientProvider,
     ) {
     }
 
-    public function verify(PaymentRequestInterface $paymentRequest): void
+    public function verify(VerifiableRequestInterface $request): void
     {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
-
+        $payload = $request->getTransactionPayload();
         $payload->validateNotNull([
             'sessionId',
             'orderId',
@@ -31,9 +29,8 @@ final readonly class Przelewy24TransactionVerifier implements TransactionVerifie
             'currency',
         ]);
 
-        /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $request->getPaymentMethod(),
         );
 
         $przelewy24->transactions()->verify(

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources
+        xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd"
+>
+    <resource class="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" shortName="Subscription">
+        <operations>
+            <operation
+                    name="bitbag_sylius_przelewy24_plugin_shop_subscription_get"
+                    class="ApiPlatform\Metadata\Get"
+                    uriTemplate="/shop/przelewy24/subscriptions/{id}"
+                    security="is_granted('show', object)"
+            >
+                <uriVariables>
+                    <uriVariable parameterName="id" fromClass="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" />
+                </uriVariables>
+
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>bitbag_sylius_przelewy24_plugin:shop:subscription:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+
+            <operation
+                    name="bitbag_sylius_przelewy24_plugin_shop_subscription_patch"
+                    class="ApiPlatform\Metadata\Patch"
+                    uriTemplate="/shop/przelewy24/subscriptions/{id}"
+                    security="is_granted('edit', object)"
+                    controller="bitbag.sylius_przelewy24_plugin.controller.change_subscription_card"
+            >
+                <uriVariables>
+                    <uriVariable parameterName="id" fromClass="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" />
+                </uriVariables>
+
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>bitbag_sylius_przelewy24_plugin:shop:subscription:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+        </operations>
+    </resource>
+</resources>

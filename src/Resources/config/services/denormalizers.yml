@@ -1,0 +1,3 @@
+services:
+    bitbag.sylius_przelewy24_plugin.denormalizer.symfony_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Denormalizer\SymfonyRequestDenormalizer

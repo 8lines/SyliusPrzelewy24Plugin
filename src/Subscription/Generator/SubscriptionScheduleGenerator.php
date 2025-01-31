@@ -16,6 +16,9 @@ final readonly class SubscriptionScheduleGenerator implements SubscriptionSchedu
     ) {
     }
 
+    /**
+     * @throws \DateMalformedStringException
+     */
     public function generate(
         \DateTimeImmutable $startsAt,
         int $recurringTimes,

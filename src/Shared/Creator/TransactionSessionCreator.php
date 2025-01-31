@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Creator;
 
-use BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\PaymentPayloadDataAssignerInterface;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\TransactionPayloadDataAssignerInterface;
 
 final readonly class TransactionSessionCreator implements TransactionCreatorInterface
 {
     public function __construct(
-        private PaymentPayloadDataAssignerInterface $compositeTransactionSessionAssigner,
+        private TransactionPayloadDataAssignerInterface $compositeTransactionSessionAssigner,
     ) {
     }
 
-    public function create(PaymentRequestInterface $paymentRequest): void
+    public function create(CreatableTransactionRequest $request): void
     {
         $this->compositeTransactionSessionAssigner->assign(
-            paymentRequest: $paymentRequest,
+            request: $request,
         );
     }
 }

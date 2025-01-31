@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Creator;
 
 use Laminas\Stdlib\PriorityQueue;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 final readonly class CompositeTransactionCreator implements TransactionCreatorInterface
 {
@@ -29,11 +28,11 @@ final readonly class CompositeTransactionCreator implements TransactionCreatorIn
         );
     }
 
-    public function create(PaymentRequestInterface $paymentRequest): void
+    public function create(CreatableTransactionRequest $request): void
     {
         /** @var TransactionCreatorInterface $transactionCreator */
         foreach ($this->transactionCreators as $transactionCreator) {
-            $transactionCreator->create($paymentRequest);
+            $transactionCreator->create($request);
         }
     }
 }

@@ -10,7 +10,5 @@ use Sylius\Component\Payment\Model\PaymentRequestInterface;
 
 interface PaymentPayloadProviderInterface
 {
-    public function provideFromPaymentRequest(PaymentRequestInterface $paymentRequest): PaymentPayload;
-
     public function provideFromPayment(PaymentInterface $payment): PaymentPayload;
 }

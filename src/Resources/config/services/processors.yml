@@ -5,16 +5,68 @@ services:
             - '@sylius_abstraction.state_machine'
             - '@logger'
 
-    bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification:
-        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessor
+    bitbag.sylius_przelewy24_plugin.processor.add_card_request:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\AddCardRequestProcessor
+        arguments:
+            - '@sylius_abstraction.state_machine'
+            - '@logger'
+
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification_validity:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationValidityProcessor
         arguments:
             - '@bitbag.sylius_przelewy24_plugin.checker.composite_przelewy24_one_time_transaction_notification_validity'
-            - '@bitbag.sylius_przelewy24_plugin.przelewy24.verifier.transaction'
-            - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'
 
-    bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification:
-        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationProcessor
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification_validity:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationValidityProcessor
         arguments:
             - '@bitbag.sylius_przelewy24_plugin.checker.composite_przelewy24_subscription_transaction_notification_validity'
+
+    bitbag.sylius_przelewy24_plugin.processor.add_card_notification_validity:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationValidityProcessor
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.checker.composite_add_card_transaction_notification_validity'
+
+    bitbag.sylius_przelewy24_plugin.processor.transaction_notification_verifier:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\TransactionNotificationVerifierProcessor
+        arguments:
             - '@bitbag.sylius_przelewy24_plugin.przelewy24.verifier.transaction'
+
+    bitbag.sylius_przelewy24_plugin.processor.payment_notification_payment_state:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\PaymentNotificationPaymentStateProcessor
+        arguments:
             - '@bitbag.sylius_przelewy24_plugin.przelewy24.state_resolver.payment'
+
+    bitbag.sylius_przelewy24_plugin.processor.add_card_notification_card_creation:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\AddCardNotificationCardCreationProcessor
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.provider.api_client'
+            - '@bitbag.sylius_przelewy24_plugin.creator.card'
+
+    bitbag.sylius_przelewy24_plugin.processor.add_card_notification_transaction_refunding:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Processor\AddCardNotificationTransactionRefundingProcessor
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.przelewy24.refunder.transaction'
+
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\CompositeTransactionNotificationProcessor
+        calls:
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.przelewy24_one_time_payment_notification_validity', '300']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.transaction_notification_verifier', '200']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.payment_notification_payment_state', '100']]
+
+    bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\CompositeTransactionNotificationProcessor
+        calls:
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.przelewy24_subscription_payment_notification_validity', '300']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.transaction_notification_verifier', '200']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.payment_notification_payment_state', '100']]
+
+    bitbag.sylius_przelewy24_plugin.processor.add_card_notification:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Processor\CompositeTransactionNotificationProcessor
+        calls:
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.add_card_notification_validity', '400']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.transaction_notification_verifier', '300']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.add_card_notification_card_creation', '200']]
+            - ['addProcessor', ['@bitbag.sylius_przelewy24_plugin.processor.add_card_notification_transaction_refunding', '100']]
+
+

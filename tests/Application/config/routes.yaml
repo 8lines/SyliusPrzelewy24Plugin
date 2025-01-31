@@ -1,0 +1,2 @@
+bitbag_sylius_przelewy24_plugin:
+    resource: "@BitBagSyliusPrzelewy24Plugin/Resources/config/routing.yml"

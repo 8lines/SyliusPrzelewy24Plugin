@@ -17,7 +17,7 @@ use Sylius\Bundle\PaymentBundle\Announcer\PaymentRequestAnnouncerInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\Factory\PaymentFactoryInterface;
 use Sylius\Component\Payment\Factory\PaymentRequestFactoryInterface;
-use Sylius\Component\Payment\Model\PaymentRequest;
+use Sylius\Component\Payment\Model\PaymentRequestInterface;
 use Sylius\Component\Payment\Repository\PaymentRequestRepositoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webmozart\Assert\Assert;
@@ -155,7 +155,7 @@ final readonly class SubscriptionCurrentIntervalPaymentProcessor implements Subs
     private function createPaymentRequestForPayment(
         SubscriptionInterface $subscription,
         PaymentInterface $payment,
-    ): PaymentRequest {
+    ): PaymentRequestInterface {
         $paymentRequest = $this->paymentRequestFactory->create(
             payment: $payment,
             paymentMethod: $payment->getMethod(),

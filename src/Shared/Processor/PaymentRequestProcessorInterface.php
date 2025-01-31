@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Processor;
 
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 
 interface PaymentRequestProcessorInterface
 {
     /**
-     * @param callable<PaymentRequestInterface, void> $action
+     * @param callable<TransactionalPaymentRequestInterface, void> $action
      */
     public function process(
-        PaymentRequestInterface $paymentRequest,
+        TransactionalPaymentRequestInterface $request,
         callable $action,
     ): void;
 }

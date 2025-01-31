@@ -37,3 +37,13 @@ services:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\CardRefIdResolver
         arguments:
             - '@bitbag_sylius_przelewy24_plugin.repository.card'
+
+    bitbag.sylius_przelewy24_plugin.resolver.add_card.after_url:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\AddCardAfterUrlResolver
+        arguments:
+            - '@router'
+
+    bitbag.sylius_przelewy24_plugin.resolver.add_card.notify_url:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Resolver\AddCardNotifyUrlResolver
+        arguments:
+            - '@router'

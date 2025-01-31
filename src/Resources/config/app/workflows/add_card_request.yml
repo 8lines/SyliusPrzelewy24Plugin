@@ -1,0 +1,35 @@
+framework:
+    workflows:
+        !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\AddCardRequestTransitions::GRAPH:
+            type: state_machine
+            marking_store:
+                type: method
+                property: state
+            supports:
+                - BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface
+            initial_marking: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+            places:
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_PROCESSING
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_COMPLETED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_FAILED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_CANCELLED
+            transitions:
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\AddCardRequestTransitions::TRANSITION_PROCESS:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_PROCESSING
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\AddCardRequestTransitions::TRANSITION_COMPLETE:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_PROCESSING
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_COMPLETED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\AddCardRequestTransitions::TRANSITION_FAIL:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_PROCESSING
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_FAILED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\AddCardRequestTransitions::TRANSITION_CANCEL:
+                    from:
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_NEW
+                        - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_PROCESSING
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\AddCardRequestInterface::STATE_CANCELLED

@@ -4,36 +4,35 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\StateResolver;
 
+use BitBag\SyliusPrzelewy24Plugin\Shared\Entity\TransactionalPaymentRequestInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentApiClientProviderInterface;
-use BitBag\SyliusPrzelewy24Plugin\Shared\Provider\PaymentPayloadProviderInterface;
 use BitBag\SyliusPrzelewy24Plugin\Shared\Przelewy24\Transaction\Enum\Przelewy24TransactionStatus;
 use BitBag\SyliusPrzelewy24Plugin\Shared\StateResolver\PaymentStateResolverInterface;
 use Przelewy24\Przelewy24;
 use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
-use Sylius\Component\Payment\Model\PaymentRequestInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 
 final readonly class Przelewy24PaymentStateResolver implements PaymentStateResolverInterface
 {
     public function __construct(
-        private PaymentPayloadProviderInterface $paymentPayloadProvider,
         private PaymentApiClientProviderInterface $paymentApiClientProvider,
         private StateMachineInterface $stateMachine,
     ) {
     }
 
-    public function resolve(PaymentRequestInterface $paymentRequest): void
+    public function resolve(TransactionalPaymentRequestInterface $request): void
     {
-        $payload = $this->paymentPayloadProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
-        );
-
+        $payload = $request->getTransactionPayload();
         $payload->validateNotNull(['sessionId']);
 
+        /** @var PaymentMethodInterface $paymentMethod */
+        $paymentMethod = $request->getMethod();
+
         /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentRequest(
-            paymentRequest: $paymentRequest,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $paymentMethod,
         );
 
         try {
@@ -45,7 +44,7 @@ final readonly class Przelewy24PaymentStateResolver implements PaymentStateResol
         }
 
         /** @var PaymentInterface $payment */
-        $payment = $paymentRequest->getPayment();
+        $payment = $request->getPayment();
 
         $status = Przelewy24TransactionStatus::fromSdkTransactionStatus(
             status: $transaction->status(),

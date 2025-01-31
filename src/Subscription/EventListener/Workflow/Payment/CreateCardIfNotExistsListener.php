@@ -11,6 +11,7 @@ use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SyliusCustomerAsSubscriber
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringSyliusOrderInterface;
 use Przelewy24\Przelewy24;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
@@ -47,9 +48,12 @@ final readonly class CreateCardIfNotExistsListener
 
         $payload->validateNotNull(['orderId']);
 
+        /** @var PaymentMethodInterface $paymentMethod */
+        $paymentMethod = $payment->getMethod();
+
         /** @var Przelewy24 $przelewy24 */
-        $przelewy24 = $this->paymentApiClientProvider->provideFromPayment(
-            payment: $payment,
+        $przelewy24 = $this->paymentApiClientProvider->provideFromPaymentMethod(
+            paymentMethod: $paymentMethod,
         );
 
         $card = $przelewy24->cards()->info(

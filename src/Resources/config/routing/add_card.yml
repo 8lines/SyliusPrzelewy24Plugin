@@ -1,0 +1,5 @@
+bitbag_sylius_przelewy24_plugin_add_card_notify:
+    path: /przelewy24/add-card/notify/{hash}
+    methods: [POST]
+    defaults:
+        _controller: bitbag.sylius_przelewy24_plugin.controller.handle_add_card_notification
