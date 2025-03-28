@@ -80,8 +80,12 @@ services:
     bitbag.sylius_przelewy24_plugin.assigner.composite_add_card_payload.add_card_transaction_session:
         class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\CompositeTransactionPayloadSessionAssigner
         calls:
-            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.add_card_payload.empty_payload', '400']]
-            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.transaction_payload.session_id', '300']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.add_card_payload.empty_payload', '200']]
+            - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.transaction_payload.session_id', '100']]
+
+    bitbag.sylius_przelewy24_plugin.assigner.composite_add_card_payload.add_card_transaction_urls:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Assigner\CompositeTransactionPayloadSessionAssigner
+        calls:
             - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.add_card_payload.after_url', '200']]
             - [addAssigner, ['@bitbag.sylius_przelewy24_plugin.assigner.add_card_payload.notify_url', '100']]
 

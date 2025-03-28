@@ -26,6 +26,11 @@ services:
         arguments:
             - '@bitbag.sylius_przelewy24_plugin.assigner.composite_add_card_payload.add_card_transaction_session'
 
+    bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_urls:
+        class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\TransactionSessionCreator
+        arguments:
+            - '@bitbag.sylius_przelewy24_plugin.assigner.composite_add_card_payload.add_card_transaction_urls'
+
     bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_notify_request:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Creator\AddCardNotifyRequestCreator
         arguments:
@@ -48,6 +53,7 @@ services:
     bitbag.sylius_przelewy24_plugin.creator.composite_add_card_transaction:
         class: BitBag\SyliusPrzelewy24Plugin\Shared\Creator\CompositeTransactionCreator
         calls:
-            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_session', '300']]
-            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_notify_request', '200']]
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_session', '400']]
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_notify_request', '300']]
+            - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.creator.add_card_transaction_urls', '200']]
             - ['addCreator', ['@bitbag.sylius_przelewy24_plugin.przelewy24.creator.add_card_transaction', '100']]

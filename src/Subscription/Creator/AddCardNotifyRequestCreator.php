@@ -48,7 +48,7 @@ final readonly class AddCardNotifyRequestCreator implements TransactionCreatorIn
         );
 
         $this->addCardPayloadNotifyRequestHashAssigner->assign(
-            request: $notifyAddCardRequest,
+            request: $request,
             notifyRequestHash: $notifyAddCardRequest->getHash()?->toString(),
         );
     }

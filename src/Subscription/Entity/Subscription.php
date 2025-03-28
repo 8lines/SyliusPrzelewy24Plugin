@@ -44,7 +44,6 @@ class Subscription implements SubscriptionInterface
         $this->state = $state;
     }
 
-
     public function isActive(): bool
     {
         return SubscriptionInterface::STATE_ACTIVE === $this->state;

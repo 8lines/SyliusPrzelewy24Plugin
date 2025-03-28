@@ -31,3 +31,4 @@ services:
         arguments:
             - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
             - '@bitbag.sylius_przelewy24_plugin.subscription_processing.composite_active_subscription_processor'
+            - '@logger'
