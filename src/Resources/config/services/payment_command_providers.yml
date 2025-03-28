@@ -7,7 +7,7 @@ services:
                 index_by: 'action'
         tags:
             - name: sylius.payment_request.command_provider
-              gateway-factory: 'przelewy24_one_time'
+              gateway_factory: 'przelewy24_one_time'
 
     bitbag.sylius_przelewy24_plugin.command_provider.payment.przelewy24_one_time.capture:
         class: BitBag\SyliusPrzelewy24Plugin\OneTime\CommandProvider\Payment\CapturePaymentRequestCommandProvider
@@ -41,7 +41,7 @@ services:
                 index_by: 'action'
         tags:
             - name: sylius.payment_request.command_provider
-              gateway-factory: 'przelewy24_subscription'
+              gateway_factory: 'przelewy24_subscription'
 
     bitbag.sylius_przelewy24_plugin.command_provider.payment.przelewy24_subscription.capture:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\CommandProvider\Payment\CapturePaymentRequestCommandProvider
