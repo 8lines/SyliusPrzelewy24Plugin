@@ -54,7 +54,7 @@ final readonly class ProcessAddCardRequestController
         $addCardRequest = $this->addCardRequestFactory->createCaptureRequest(
             customer: $customer,
             paymentMethod: $this->subscriptionPaymentMethodResolver->resolve(),
-            parameters: $request->toArray()['parameters'] ?? [],
+            parameters: $request->toArray() ?? [],
             httpRequest: $httpRequest,
         );
 
