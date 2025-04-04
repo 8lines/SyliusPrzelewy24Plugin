@@ -30,7 +30,7 @@ interface AddCardRequestInterface extends
 
     public const REQUEST_CURRENCY_CODE = 'PLN';
 
-    public const REQUEST_ORDER_TOTAL = 1000;
+    public const REQUEST_ORDER_TOTAL = 100;
 
     public const ACTION_CAPTURE = 'capture';
 
