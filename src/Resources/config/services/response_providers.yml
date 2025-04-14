@@ -7,7 +7,7 @@ services:
                 index_by: action
         tags:
             - name: sylius.payment_request.provider.http_response
-              gateway-factory: 'przelewy24_one_time'
+              gateway_factory: 'przelewy24_one_time'
 
     bitbag.sylius_przelewy24_plugin.provider.http_response.przelewy24_subscription:
         class: Sylius\Bundle\PaymentBundle\Provider\ActionsHttpResponseProvider
@@ -17,4 +17,4 @@ services:
                 index_by: action
         tags:
             - name: sylius.payment_request.provider.http_response
-              gateway-factory: 'przelewy24_subscription'
+              gateway_factory: 'przelewy24_subscription'
