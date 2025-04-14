@@ -75,14 +75,12 @@ final readonly class SubscriptionCurrentIntervalPaymentProcessor implements Subs
             interval: $currentInterval,
         );
 
-        $this->syliusOrderRepository->add($order);
-
         $payment = $this->createPaymentForOrder(
             order: $order,
         );
 
-        $this->syliusPaymentRepository->add($payment);
         $this->syliusOrderRepository->add($order);
+        $this->syliusPaymentRepository->add($payment);
 
         $currentInterval->setOrder($order->getRecurringPrzelewy24Order());
 
