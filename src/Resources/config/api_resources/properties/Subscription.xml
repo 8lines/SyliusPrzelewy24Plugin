@@ -9,4 +9,5 @@
     <property resource="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" name="startsAt" writable="false" />
     <property resource="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" name="endsAt" writable="false" />
     <property resource="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" name="configuration" writable="false" />
+    <property resource="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" name="schedule" writable="false" />
 </properties>

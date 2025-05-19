@@ -4,25 +4,17 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
-    <class name="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionConfiguration">
+    <class name="BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionSchedule">
         <attribute name="id">
             <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
-            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
 
-        <attribute name="recurringTimes">
+        <attribute name="currentSequence">
             <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
-            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
 
-        <attribute name="recurringIntervalInDays">
+        <attribute name="intervals">
             <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
-            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
-        </attribute>
-
-        <attribute name="card">
-            <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
-            <group>bitbag_sylius_przelewy24_plugin:shop:subscription:show</group>
         </attribute>
     </class>
 </serializer>

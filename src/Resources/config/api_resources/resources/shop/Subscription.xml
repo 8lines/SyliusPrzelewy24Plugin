@@ -8,6 +8,27 @@
     <resource class="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" shortName="Subscription">
         <operations>
             <operation
+                    name="bitbag_sylius_przelewy24_plugin_admin_subscription_get"
+                    class="ApiPlatform\Metadata\Get"
+                    uriTemplate="/admin/przelewy24/subscriptions/{id}"
+                    security="is_granted('show', object)"
+            >
+                <uriVariables>
+                    <uriVariable parameterName="id" fromClass="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" />
+                </uriVariables>
+
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>bitbag_sylius_przelewy24_plugin:admin:subscription:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
+
+            <operation
                     name="bitbag_sylius_przelewy24_plugin_shop_subscription_get"
                     class="ApiPlatform\Metadata\Get"
                     uriTemplate="/shop/przelewy24/subscriptions/{id}"
