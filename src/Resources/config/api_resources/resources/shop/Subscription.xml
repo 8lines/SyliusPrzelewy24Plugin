@@ -11,7 +11,6 @@
                     name="bitbag_sylius_przelewy24_plugin_admin_subscription_get"
                     class="ApiPlatform\Metadata\Get"
                     uriTemplate="/admin/przelewy24/subscriptions/{id}"
-                    security="is_granted('show', object)"
             >
                 <uriVariables>
                     <uriVariable parameterName="id" fromClass="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" />
