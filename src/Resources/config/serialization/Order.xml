@@ -5,6 +5,14 @@
             xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd"
 >
     <class name="Sylius\Component\Core\Model\Order">
+        <attribute name="id">
+            <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
+        </attribute>
+
+        <attribute name="tokenValue">
+            <group>bitbag_sylius_przelewy24_plugin:admin:subscription:show</group>
+        </attribute>
+
         <attribute name="recurringPrzelewy24Order" serialized-name="przelewy24Order">
             <group>sylius:admin:order:index</group>
             <group>sylius:admin:order:show</group>
