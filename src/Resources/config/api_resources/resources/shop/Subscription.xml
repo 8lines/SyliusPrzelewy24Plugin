@@ -69,6 +69,28 @@
                     </values>
                 </normalizationContext>
             </operation>
+
+            <operation
+                    name="bitbag_sylius_przelewy24_plugin_shop_cancel_subscription_post"
+                    class="ApiPlatform\Metadata\Post"
+                    uriTemplate="/shop/przelewy24/subscriptions/{id}/cancel"
+                    security="is_granted('edit', object)"
+                    controller="bitbag.sylius_przelewy24_plugin.controller.cancel_subscription"
+            >
+                <uriVariables>
+                    <uriVariable parameterName="id" fromClass="%bitbag_sylius_przelewy24_plugin.model.subscription.class%" />
+                </uriVariables>
+
+                <normalizationContext>
+                    <values>
+                        <value name="groups">
+                            <values>
+                                <value>bitbag_sylius_przelewy24_plugin:shop:subscription:show</value>
+                            </values>
+                        </value>
+                    </values>
+                </normalizationContext>
+            </operation>
         </operations>
     </resource>
 </resources>

@@ -27,3 +27,11 @@ services:
             - '@sylius_api.context.user.token_based'
             - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
             - '@bitbag_sylius_przelewy24_plugin.repository.card'
+
+    bitbag.sylius_przelewy24_plugin.controller.cancel_subscription:
+        public: true
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Controller\CancelSubscriptionController
+        arguments:
+            - '@sylius_api.context.user.token_based'
+            - '@bitbag_sylius_przelewy24_plugin.repository.subscription'
+            - '@sylius_abstraction.state_machine'
