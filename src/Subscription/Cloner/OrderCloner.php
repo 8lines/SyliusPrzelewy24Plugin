@@ -44,7 +44,6 @@ final readonly class OrderCloner implements OrderClonerInterface
         $clonedOrder->setPromotionCoupon($baseOrder->getPromotionCoupon());
         $clonedOrder->setShippingAddress(clone $baseOrder->getShippingAddress());
         $clonedOrder->setBillingAddress(clone $baseOrder->getBillingAddress());
-        $clonedOrder->setShippingState(OrderShippingStates::STATE_READY);
         $clonedOrder->setTokenValue($this->randomnessGenerator->generateUriSafeString(10));
         $clonedOrder->setCreatedAt($this->clock->now());
         $clonedOrder->setUpdatedAt($this->clock->now());
