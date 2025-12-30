@@ -41,6 +41,7 @@ final readonly class OrderCloner implements OrderClonerInterface
         $clonedOrder->setCustomerIp($baseOrder->getCustomerIp());
         $clonedOrder->setLocaleCode($baseOrder->getLocaleCode());
         $clonedOrder->setPaymentState(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+        $clonedOrder->setShippingState(OrderShippingStates::STATE_SHIPPED);
         $clonedOrder->setPromotionCoupon($baseOrder->getPromotionCoupon());
         $clonedOrder->setShippingAddress(clone $baseOrder->getShippingAddress());
         $clonedOrder->setBillingAddress(clone $baseOrder->getBillingAddress());
@@ -86,6 +87,10 @@ final readonly class OrderCloner implements OrderClonerInterface
 
                     $clonedShipment->addAdjustment($clonedAdjustment);
                 }
+            }
+
+            if (true === $clonedOrder->hasShipments()) {
+                $clonedOrder->setShippingState(OrderShippingStates::STATE_READY);
             }
         }
 
