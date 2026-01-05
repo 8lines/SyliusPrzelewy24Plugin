@@ -14,6 +14,7 @@ final readonly class OrderItemCloner implements OrderItemClonerInterface
     public function __construct(
         private FactoryInterface $orderItemFactory,
         private OrderItemUnitFactoryInterface $orderItemUnitFactory,
+        private AdjustmentClonerInterface $adjustmentCloner,
     ) {
     }
 
@@ -30,13 +31,28 @@ final readonly class OrderItemCloner implements OrderItemClonerInterface
         $clonedOrderItem->setVersion($baseOrderItem->getVersion());
         $clonedOrderItem->setImmutable(true);
 
-        for ($orderItemQuantity = $baseOrderItem->getQuantity(); 0 < $orderItemQuantity; --$orderItemQuantity) {
-            $clonedUnit = $this->orderItemUnitFactory->createForItem($clonedOrderItem);
-            $clonedOrderItem->addUnit($clonedUnit);
+        foreach ($baseOrderItem->getAdjustments() as $adjustment) {
+            $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
+            $clonedAdjustment->setAdjustable($clonedOrderItem);
+
+            $clonedOrderItem->addAdjustment($clonedAdjustment);
+            $clonedOrderItem->recalculateAdjustmentsTotal();
         }
 
-        $clonedOrderItem->recalculateUnitsTotal();
-        $clonedOrderItem->recalculateAdjustmentsTotal();
+        foreach ($baseOrderItem->getUnits() as $unit) {
+            $clonedUnit = $this->orderItemUnitFactory->createForItem($clonedOrderItem);
+
+            foreach ($unit->getAdjustments() as $adjustment) {
+                $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
+                $clonedAdjustment->setAdjustable($clonedUnit);
+
+                $clonedUnit->addAdjustment($clonedAdjustment);
+                $clonedUnit->recalculateAdjustmentsTotal();
+            }
+
+            $clonedOrderItem->addUnit($clonedUnit);
+            $clonedOrderItem->recalculateUnitsTotal();
+        }
 
         return $clonedOrderItem;
     }

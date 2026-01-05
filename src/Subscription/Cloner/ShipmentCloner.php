@@ -28,8 +28,6 @@ final readonly class ShipmentCloner implements ShipmentClonerInterface
         $clonedShipment->setCreatedAt($this->clock->now());
         $clonedShipment->setUpdatedAt($this->clock->now());
 
-        $clonedShipment->recalculateAdjustmentsTotal();
-
         return $clonedShipment;
     }
 }

@@ -25,7 +25,6 @@ final readonly class OrderCloner implements OrderClonerInterface
         private OrderItemClonerInterface $orderItemCloner,
         private AdjustmentClonerInterface $adjustmentCloner,
         private ShipmentClonerInterface $shipmentCloner,
-        private OrderProcessorInterface $orderProcessor,
     ) {
     }
 
@@ -43,23 +42,23 @@ final readonly class OrderCloner implements OrderClonerInterface
         $clonedOrder->setPromotionCoupon($baseOrder->getPromotionCoupon());
         $clonedOrder->setShippingAddress(clone $baseOrder->getShippingAddress());
         $clonedOrder->setBillingAddress(clone $baseOrder->getBillingAddress());
+        $clonedOrder->setState(RecurringSyliusOrderInterface::STATE_NEW);
+        $clonedOrder->setCheckoutState(OrderCheckoutStates::STATE_COMPLETED);
+        $clonedOrder->setPaymentState(OrderPaymentStates::STATE_AWAITING_PAYMENT);
+        $clonedOrder->setShippingState(OrderShippingStates::STATE_SHIPPED);
+        $clonedOrder->setTokenValue($this->randomnessGenerator->generateUriSafeString(10));
+        $clonedOrder->setCheckoutCompletedAt($this->clock->now());
         $clonedOrder->setCreatedAt($this->clock->now());
         $clonedOrder->setUpdatedAt($this->clock->now());
+
+        $this->orderNumberAssigner->assignNumber($clonedOrder);
 
         foreach ($baseOrder->getItems() as $orderItem) {
             $clonedOrderItem = $this->orderItemCloner->clone($orderItem);
             $clonedOrderItem->setOrder($clonedOrder);
 
             $clonedOrder->addItem($clonedOrderItem);
-        }
-
-        foreach ($baseOrder->getAdjustments() as $adjustment) {
-            if (AdjustmentInterface::SHIPPING_ADJUSTMENT === $adjustment->getType()) {
-                continue;
-            }
-
-            $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
-            $clonedOrder->addAdjustment($clonedAdjustment);
+            $clonedOrder->recalculateItemsTotal();
         }
 
         if (true === $clonedOrder->isShippingRequired()) {
@@ -80,6 +79,7 @@ final readonly class OrderCloner implements OrderClonerInterface
                     $clonedAdjustment->setAdjustable($clonedOrder);
 
                     $clonedShipment->addAdjustment($clonedAdjustment);
+                    $clonedShipment->recalculateAdjustmentsTotal();
                 }
             }
 
@@ -87,19 +87,6 @@ final readonly class OrderCloner implements OrderClonerInterface
                 $clonedOrder->setShippingState(OrderShippingStates::STATE_READY);
             }
         }
-
-        $clonedOrder->recalculateItemsTotal();
-        $clonedOrder->recalculateAdjustmentsTotal();
-
-        $this->orderProcessor->process($clonedOrder);
-
-        $clonedOrder->setState(RecurringSyliusOrderInterface::STATE_NEW);
-        $clonedOrder->setCheckoutState(OrderCheckoutStates::STATE_COMPLETED);
-        $clonedOrder->setPaymentState(OrderPaymentStates::STATE_AWAITING_PAYMENT);
-        $clonedOrder->setShippingState(OrderShippingStates::STATE_SHIPPED);
-        $clonedOrder->setTokenValue($this->randomnessGenerator->generateUriSafeString(10));
-
-        $this->orderNumberAssigner->assignNumber($clonedOrder);
 
         return $clonedOrder;
     }
