@@ -10,6 +10,7 @@ use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderShippingStates;
+use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Sylius\Resource\Generator\RandomnessGeneratorInterface;
 use Symfony\Component\Clock\ClockInterface;
@@ -24,6 +25,7 @@ final readonly class OrderCloner implements OrderClonerInterface
         private OrderItemClonerInterface $orderItemCloner,
         private AdjustmentClonerInterface $adjustmentCloner,
         private ShipmentClonerInterface $shipmentCloner,
+        private OrderProcessorInterface $orderProcessor,
     ) {
     }
 
@@ -96,6 +98,8 @@ final readonly class OrderCloner implements OrderClonerInterface
 
         $clonedOrder->recalculateAdjustmentsTotal();
         $clonedOrder->recalculateItemsTotal();
+
+        $this->orderProcessor->process($clonedOrder);
 
         return $clonedOrder;
     }
