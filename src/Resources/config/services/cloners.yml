@@ -21,7 +21,6 @@ services:
             - '@bitbag.sylius_przelewy24_plugin.cloner.adjustment'
             - '@bitbag.sylius_przelewy24_plugin.cloner.shipment'
             - '@sylius.order_processing.order_processor.composite'
-            - '@sylius_abstraction.state_machine'
 
     bitbag.sylius_przelewy24_plugin.cloner.shipment:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner\ShipmentCloner
