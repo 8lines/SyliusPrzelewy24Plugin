@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace BitBag\SyliusPrzelewy24Plugin\Subscription\Cloner;
 
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringSyliusOrderInterface;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\OrderBundle\NumberAssigner\OrderNumberAssignerInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\OrderCheckoutStates;
 use Sylius\Component\Core\OrderPaymentStates;
 use Sylius\Component\Core\OrderShippingStates;
+use Sylius\Component\Order\OrderTransitions;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Sylius\Resource\Generator\RandomnessGeneratorInterface;
@@ -26,6 +29,7 @@ final readonly class OrderCloner implements OrderClonerInterface
         private AdjustmentClonerInterface $adjustmentCloner,
         private ShipmentClonerInterface $shipmentCloner,
         private OrderProcessorInterface $orderProcessor,
+        private StateMachineInterface $stateMachine,
     ) {
     }
 
@@ -34,25 +38,15 @@ final readonly class OrderCloner implements OrderClonerInterface
         /** @var RecurringSyliusOrderInterface $clonedOrder */
         $clonedOrder = $this->orderFactory->createNew();
 
-        $clonedOrder->setState(RecurringSyliusOrderInterface::STATE_NEW);
         $clonedOrder->setNotes($baseOrder->getNotes());
         $clonedOrder->setChannel($baseOrder->getChannel());
-        $clonedOrder->setCheckoutState(OrderCheckoutStates::STATE_COMPLETED);
         $clonedOrder->setCustomer($baseOrder->getCustomer());
         $clonedOrder->setCurrencyCode($baseOrder->getCurrencyCode());
         $clonedOrder->setCustomerIp($baseOrder->getCustomerIp());
         $clonedOrder->setLocaleCode($baseOrder->getLocaleCode());
-        $clonedOrder->setPaymentState(OrderPaymentStates::STATE_AWAITING_PAYMENT);
-        $clonedOrder->setShippingState(OrderShippingStates::STATE_SHIPPED);
         $clonedOrder->setPromotionCoupon($baseOrder->getPromotionCoupon());
         $clonedOrder->setShippingAddress(clone $baseOrder->getShippingAddress());
         $clonedOrder->setBillingAddress(clone $baseOrder->getBillingAddress());
-        $clonedOrder->setTokenValue($this->randomnessGenerator->generateUriSafeString(10));
-        $clonedOrder->setCreatedAt($this->clock->now());
-        $clonedOrder->setUpdatedAt($this->clock->now());
-        $clonedOrder->setCheckoutCompletedAt($this->clock->now());
-
-        $this->orderNumberAssigner->assignNumber($clonedOrder);
 
         foreach ($baseOrder->getItems() as $orderItem) {
             $clonedOrderItem = $this->orderItemCloner->clone($orderItem);
@@ -61,45 +55,11 @@ final readonly class OrderCloner implements OrderClonerInterface
             $clonedOrder->addItem($clonedOrderItem);
         }
 
-        foreach ($baseOrder->getAdjustments() as $adjustment) {
-            if (AdjustmentInterface::SHIPPING_ADJUSTMENT === $adjustment->getType()) {
-                continue;
-            }
-
-            $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
-            $clonedOrder->addAdjustment($clonedAdjustment);
-        }
-
-        if (true === $clonedOrder->isShippingRequired()) {
-            foreach ($baseOrder->getShipments() as $shipment) {
-                $clonedShipment = $this->shipmentCloner->clone($shipment);
-                $clonedShipment->setOrder($clonedOrder);
-
-                $clonedOrder->addShipment($clonedShipment);
-
-                foreach ($clonedOrder->getItemUnits() as $itemUnit) {
-                    $clonedShipment->addUnit($itemUnit);
-                }
-
-                foreach ($shipment->getAdjustments() as $adjustment) {
-                    $clonedAdjustment = $this->adjustmentCloner->clone($adjustment);
-
-                    $clonedAdjustment->setShipment($clonedShipment);
-                    $clonedAdjustment->setAdjustable($clonedOrder);
-
-                    $clonedShipment->addAdjustment($clonedAdjustment);
-                }
-            }
-
-            if (true === $clonedOrder->hasShipments()) {
-                $clonedOrder->setShippingState(OrderShippingStates::STATE_READY);
-            }
-        }
-
-        $clonedOrder->recalculateAdjustmentsTotal();
-        $clonedOrder->recalculateItemsTotal();
-
-        $this->orderProcessor->process($clonedOrder);
+        $this->stateMachine->apply(
+            subject: $clonedOrder,
+            graphName: OrderTransitions::GRAPH,
+            transition: OrderTransitions::TRANSITION_CREATE,
+        );
 
         return $clonedOrder;
     }
