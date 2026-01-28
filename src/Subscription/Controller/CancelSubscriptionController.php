@@ -49,7 +49,7 @@ final readonly class CancelSubscriptionController
         );
 
         foreach ($subscription->getSchedule()->getIntervals() as $interval) {
-            if (false === $interval->isScheduled() || false === $interval->isFulfilled()) {
+            if (false === $interval->isScheduled() && false === $interval->isFulfilled()) {
                 continue;
             }
 
