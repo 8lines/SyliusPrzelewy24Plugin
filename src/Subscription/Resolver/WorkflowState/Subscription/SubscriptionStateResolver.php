@@ -30,6 +30,7 @@ final readonly class SubscriptionStateResolver implements SubscriptionStateResol
         );
 
         $transitions = [
+            SubscriptionTransitions::TRANSITION_CANCEL,
             SubscriptionTransitions::TRANSITION_ABORT,
             SubscriptionTransitions::TRANSITION_COMPLETE,
         ];

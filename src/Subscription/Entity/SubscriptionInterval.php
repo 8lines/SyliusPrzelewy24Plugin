@@ -50,6 +50,11 @@ class SubscriptionInterval implements SubscriptionIntervalInterface
         return SubscriptionIntervalInterface::STATE_SCHEDULED === $this->state;
     }
 
+    public function isAwaitingPayment(): bool
+    {
+        return SubscriptionIntervalInterface::STATE_AWAITING_PAYMENT === $this->state;
+    }
+
     public function isPaid(): bool
     {
         return PaymentInterface::STATE_COMPLETED === $this->order?->getSyliusOrder()?->getLastPayment()?->getState();
@@ -63,6 +68,11 @@ class SubscriptionInterval implements SubscriptionIntervalInterface
     public function isCompleted(): bool
     {
         return SubscriptionIntervalInterface::STATE_COMPLETED === $this->state;
+    }
+
+    public function isCancelled(): bool
+    {
+        return SubscriptionIntervalInterface::STATE_CANCELLED === $this->state;
     }
 
     public function isAborted(): bool

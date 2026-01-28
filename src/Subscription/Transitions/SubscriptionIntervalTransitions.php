@@ -16,6 +16,8 @@ final readonly class SubscriptionIntervalTransitions
 
     public const TRANSITION_COMPLETE = 'complete';
 
+    public const TRANSITION_CANCEL = 'cancel';
+
     public const TRANSITION_ABORT = 'abort';
 
     private function __construct()

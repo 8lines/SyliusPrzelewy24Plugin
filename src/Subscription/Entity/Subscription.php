@@ -54,6 +54,11 @@ class Subscription implements SubscriptionInterface
         return SubscriptionInterface::STATE_COMPLETED === $this->state;
     }
 
+    public function isCancelled(): bool
+    {
+        return SubscriptionInterface::STATE_CANCELLED === $this->state;
+    }
+
     public function isAborted(): bool
     {
         return SubscriptionInterface::STATE_ABORTED === $this->state;

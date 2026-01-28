@@ -49,24 +49,24 @@ final readonly class CancelSubscriptionController
         );
 
         foreach ($subscription->getSchedule()->getIntervals() as $interval) {
-            if (false === $interval->isScheduled() && false === $interval->isFulfilled()) {
+            if (false === $interval->isScheduled() || false === $interval->isFulfilled()) {
                 continue;
             }
 
             $this->stateMachine->apply(
                 subject: $interval,
                 graphName: SubscriptionIntervalTransitions::GRAPH,
-                transition: SubscriptionIntervalTransitions::TRANSITION_ABORT,
+                transition: SubscriptionIntervalTransitions::TRANSITION_CANCEL,
             );
         }
 
         $subscription->getConfiguration()->setCard(null);
 
-        if (false === $subscription->isAborted()) {
+        if (false === $subscription->isCancelled()) {
             $this->stateMachine->apply(
                 subject: $subscription,
                 graphName: SubscriptionTransitions::GRAPH,
-                transition: SubscriptionTransitions::TRANSITION_ABORT,
+                transition: SubscriptionTransitions::TRANSITION_CANCEL,
             );
         }
 

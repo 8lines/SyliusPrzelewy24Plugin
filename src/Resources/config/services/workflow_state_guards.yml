@@ -15,6 +15,23 @@ services:
               method: guardReview
               priority: 100
 
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription.all_scheduled_intervals_cancelled:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\Subscription\AllScheduledIntervalsCancelledGuard
+        tags:
+            -   name: kernel.event_listener
+                event: workflow.bitbag_sylius_przelewy24_plugin_subscription.guard.cancel
+                method: guardReview
+                priority: 100
+
+    bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription.no_interval_must_await_payment:
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\Subscription\NoIntervalMustAwaitPaymentGuard
+        tags:
+            -   name: kernel.event_listener
+                event: workflow.bitbag_sylius_przelewy24_plugin_subscription.guard.cancel
+                method: guardReview
+                priority: 100
+
+
     bitbag.sylius_przelewy24_plugin.guard.workflow_state.subscription_interval.interval_expired:
         class: BitBag\SyliusPrzelewy24Plugin\Subscription\Guard\WorkflowState\SubscriptionInterval\IntervalExpiredGuard
         arguments:

@@ -11,11 +11,15 @@ framework:
             places:
                 - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
                 - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_COMPLETED
+                - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_CANCELLED
                 - !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ABORTED
             transitions:
                 !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::TRANSITION_COMPLETE:
                     from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
                     to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_COMPLETED
+                !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::TRANSITION_CANCEL:
+                    from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
+                    to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_CANCELLED
                 !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Transitions\SubscriptionTransitions::TRANSITION_ABORT:
                     from: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ACTIVE
                     to: !php/const BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface::STATE_ABORTED

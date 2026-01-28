@@ -16,6 +16,8 @@ interface SubscriptionIntervalInterface extends ResourceInterface
 
     public const STATE_COMPLETED = 'completed';
 
+    public const STATE_CANCELLED = 'cancelled';
+
     public const STATE_ABORTED = 'aborted';
 
     public function getState(): string;
@@ -24,11 +26,15 @@ interface SubscriptionIntervalInterface extends ResourceInterface
 
     public function isScheduled(): bool;
 
+    public function isAwaitingPayment(): bool;
+
     public function isPaid(): bool;
 
     public function isFulfilled(): bool;
 
     public function isCompleted(): bool;
+
+    public function isCancelled(): bool;
 
     public function isAborted(): bool;
 
