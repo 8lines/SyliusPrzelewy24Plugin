@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Order;
+namespace BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment;
 
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Counter\SubscriptionIntervalFailureCounterInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\RecurringSyliusOrderInterface;
 use BitBag\SyliusPrzelewy24Plugin\Subscription\Entity\SubscriptionInterface;
+use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
@@ -19,8 +20,11 @@ final readonly class IncrementSubscriptionIntervalFailureCountListener
 
     public function __invoke(CompletedEvent $event): void
     {
+        /** @var PaymentInterface $payment */
+        $payment = $event->getSubject();
+
         /** @var RecurringSyliusOrderInterface $order */
-        $order = $event->getSubject();
+        $order = $payment->getOrder();
 
         Assert::isInstanceOf(
             value: $order,
