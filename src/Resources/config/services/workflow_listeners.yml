@@ -21,7 +21,7 @@ services:
               priority: 300
 
     bitbag.sylius_przelewy24_plugin.listener.workflow.payment.increment_subscription_interval_failure_count:
-        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Payment\IncrementSubscriptionIntervalFailureCountListener
+        class: BitBag\SyliusPrzelewy24Plugin\Subscription\EventListener\Workflow\Order\IncrementSubscriptionIntervalFailureCountListener
         arguments:
             - '@bitbag.sylius_przelewy24_plugin.counter.subscription_interval_failure'
         tags:
